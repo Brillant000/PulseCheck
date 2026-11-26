@@ -328,6 +328,7 @@ public partial class MainWindow : Window
         var fix = Fixes.Create(id);
         if (fix == null) return;
         if (!FixDialog.Confirm(this, fix, hw)) return;
+        fix.CaptureSelection();   // read the dialog on the UI thread; Apply runs on a background thread
 
         FixOutcome o;
         try { o = await Task.Run(() => fix.Apply(hw)); }

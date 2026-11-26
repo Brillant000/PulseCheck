@@ -290,6 +290,8 @@ public sealed class StartupFix : Fix
         return list.Where(e => !e.Disabled).ToList();
     }
 
+    public override void CaptureSelection() { foreach (var e in Entries) e.Selected = e.Chosen; }
+
     public override IReadOnlyList<Msg> Plan(HardwareInfo? hw) => new[] { new Msg("fx.p.startup"), new Msg("fx.p.startup2") };
 
     public override UIElement? ExtraUi(HardwareInfo? hw)
@@ -323,7 +325,7 @@ public sealed class StartupFix : Fix
 
     public override FixOutcome Apply(HardwareInfo? hw)
     {
-        var chosen = Entries.Where(e => e.Chosen).ToList();
+        var chosen = Entries.Where(e => e.Selected).ToList();   // plain data: safe off the UI thread
         var done = new List<(Entry e, object? before)>();
         try
         {
@@ -386,6 +388,8 @@ public sealed class BloatFix : Fix
         return list;
     }
 
+    public override void CaptureSelection() { foreach (var i in Items) i.Selected = i.Chosen; }
+
     public override IReadOnlyList<Msg> Plan(HardwareInfo? hw) => new[] { new Msg("fx.p.bloat"), new Msg("fx.p.bloat2") };
 
     public override UIElement? ExtraUi(HardwareInfo? hw)
@@ -404,7 +408,7 @@ public sealed class BloatFix : Fix
     public override FixOutcome Apply(HardwareInfo? hw)
     {
         int removed = 0; var failed = new List<string>();
-        foreach (var i in Items.Where(x => x.Chosen && IsSafeName(x.FullName)))
+        foreach (var i in Items.Where(x => x.Selected && IsSafeName(x.FullName)))   // plain data: safe off the UI thread
         {
             var (code, _) = Proc.Run("powershell", $"-NoProfile -NonInteractive -Command \"Remove-AppxPackage -Package '{i.FullName}'\"");
             if (code == 0) removed++; else failed.Add(i.Display);

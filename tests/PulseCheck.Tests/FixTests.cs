@@ -145,6 +145,44 @@ public sealed class FixTests : IDisposable
         Assert.True(fix.Ready);
     }
 
+    /// <summary>Runs on a WPF-capable STA thread and returns once the work is finished.</summary>
+    static T OnSta<T>(Func<T> work)
+    {
+        T result = default!; Exception? error = null;
+        var th = new System.Threading.Thread(() => { try { result = work(); } catch (Exception e) { error = e; } });
+        th.SetApartmentState(System.Threading.ApartmentState.STA); th.Start(); th.Join();
+        if (error != null) throw error;
+        return result;
+    }
+
+    [Fact]
+    public void Regression_fixes_with_a_checkbox_list_can_be_applied_from_a_background_thread()
+    {
+        // The dialog's CheckBoxes belong to the UI thread; Apply runs elsewhere. Reading a CheckBox
+        // from the wrong thread threw "The calling thread cannot access this object".
+        var startup = OnSta(() =>
+        {
+            var f = new StartupFix { Entries = new() { new StartupFix.Entry { Name = "ThreadApp", Approved = "Run" } } };
+            f.Entries[0].Box = new System.Windows.Controls.CheckBox { IsChecked = true };
+            f.CaptureSelection();                               // UI thread
+            return f;
+        });
+        var o = System.Threading.Tasks.Task.Run(() => startup.Apply(null)).GetAwaiter().GetResult();   // background thread
+        Assert.True(o.Ok);
+        Assert.Equal(3, ((byte[])Get(@"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run", "ThreadApp")!)[0]);
+        o.Undo!();
+
+        var bloat = OnSta(() =>
+        {
+            var f = new BloatFix { Items = new() { new BloatFix.Item { Display = "X", FullName = "X_1" } } };
+            f.Items[0].Box = new System.Windows.Controls.CheckBox { IsChecked = false };    // nothing ticked
+            f.CaptureSelection();
+            return f;
+        });
+        var ob = System.Threading.Tasks.Task.Run(() => bloat.Apply(null)).GetAwaiter().GetResult();     // must not throw
+        Assert.False(ob.Ok);                                    // nothing selected: nothing removed
+    }
+
     [Fact]
     public void Every_fix_announces_what_it_will_do_in_every_language()
     {

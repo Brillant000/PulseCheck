@@ -20,6 +20,13 @@ public abstract class Fix
     public abstract IReadOnlyList<Msg> Plan(HardwareInfo? hw);
     public virtual UIElement? ExtraUi(HardwareInfo? hw) => null;
     public virtual bool Ready => true;
+
+    /// <summary>
+    /// Copies what the user ticked in the dialog into plain data. Called on the UI thread before
+    /// <see cref="Apply"/> runs on a background thread, which must never touch WPF controls.
+    /// </summary>
+    public virtual void CaptureSelection() { }
+
     public abstract FixOutcome Apply(HardwareInfo? hw);
 }
 
