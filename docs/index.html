@@ -3,111 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PulseCheck — PC & network health check for new computers</title>
-<meta name="description" content="Free Windows tool that checks a new PC the day you unbox it: specs, battery wear, memory speed, preinstalled software, drives, security, network diagnosis. 100% local.">
-<link rel="icon" href="icon.png">
-<style>
-:root{--ink:#101828;--muted:#475467;--line:#e4e7ec;--bg:#f6f8fb;--blue:#2f6bff;--teal:#19c3a6}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
-.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-nav{display:flex;align-items:center;gap:12px;padding:18px 0}
-nav img{width:34px;height:34px}nav b{font-size:19px}
-nav .sp{flex:1}
-select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
-.hero{padding:46px 0 30px;text-align:center}
-.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.12;margin:0 0 14px;letter-spacing:-.02em}
-.hero h1 span{background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{font-size:19px;color:var(--muted);max-width:680px;margin:0 auto 26px}
-.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;padding:14px 28px;border-radius:12px;font-size:17px;box-shadow:0 6px 18px #2f6bff40}
-.btn:hover{filter:brightness(1.07)}
-.meta{margin-top:14px;font-size:14px;color:var(--muted)}
-.shot{margin:34px auto 0;max-width:900px;border-radius:14px;box-shadow:0 20px 50px #10182826;border:1px solid var(--line);background:#fff;display:block;width:100%}
-h2{font-size:28px;margin:60px 0 8px;text-align:center;letter-spacing:-.01em}
-.lead{text-align:center;color:var(--muted);max-width:640px;margin:0 auto 28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}
-.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:15px}
-.ic{font-size:26px;margin-bottom:8px}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:s}
-.steps .card{position:relative;padding-top:46px}
-.steps .card::before{counter-increment:s;content:counter(s);position:absolute;top:14px;left:20px;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
-.faq details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-.faq summary{cursor:pointer;font-weight:600}
-.faq p{color:var(--muted);margin:10px 0 0}
-footer{margin:60px 0 30px;text-align:center;color:#667085;font-size:14px}
-footer a{color:var(--blue)}
-</style>
+<title>PulseCheck – Free PC health check for new computers</title>
+<meta name="description" content="Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F5F8F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A1317" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://brillant000.github.io/PulseCheck/">
+<link rel="alternate" hreflang="en" href="https://brillant000.github.io/PulseCheck/">
+<link rel="alternate" hreflang="fr" href="https://brillant000.github.io/PulseCheck/fr/">
+<link rel="alternate" hreflang="es" href="https://brillant000.github.io/PulseCheck/es/">
+<link rel="alternate" hreflang="de" href="https://brillant000.github.io/PulseCheck/de/">
+<link rel="alternate" hreflang="x-default" href="https://brillant000.github.io/PulseCheck/">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="stylesheet" href="style.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PulseCheck">
+<meta property="og:title" content="PulseCheck – Free PC health check for new computers">
+<meta property="og:description" content="Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.">
+<meta property="og:url" content="https://brillant000.github.io/PulseCheck/">
+<meta property="og:image" content="https://brillant000.github.io/PulseCheck/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"1.1.0","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe","description":"Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <img src="icon.png" alt=""><b>PulseCheck</b><span class="sp"></span>
-    <select id="lang" aria-label="Language">
-      <option value="en">English</option><option value="fr">Français</option>
-      <option value="es">Español</option><option value="de">Deutsch</option>
-    </select>
-  </nav>
-
-  <header class="hero">
-    <h1 data-i="h1">Just bought a PC? <span>Check what you really got.</span></h1>
-    <p data-i="sub">A free Windows tool that inspects a new computer in about a minute: real specs, battery wear, memory speed, preinstalled junk, drive health, security and your internet connection.</p>
-    <a class="btn" href="https://github.com/Brillant000/PulseCheck/releases/latest" data-i="dl">Download for Windows</a>
-    <div class="meta" data-i="meta">Free · No account · No installation · Windows 10/11 · 100 % local</div>
-    <img class="shot" src="screenshot-en.png" alt="PulseCheck screenshot" id="shot">
-  </header>
-
-  <h2 data-i="why">Made for the day you unbox</h2>
-  <p class="lead" data-i="whyp">Listings are hard to verify. PulseCheck tells you whether the machine matches what you paid for.</p>
-  <div class="grid">
-    <div class="card"><div class="ic">🧾</div><h3 data-i="f1t">Real specifications</h3><p data-i="f1p">CPU, RAM, graphics, drives, screen resolution and refresh rate — compare with the box.</p></div>
-    <div class="card"><div class="ic">🔋</div><h3 data-i="f2t">Battery wear</h3><p data-i="f2p">A "new" laptop with a worn battery may be used or refurbished.</p></div>
-    <div class="card"><div class="ic">⚡</div><h3 data-i="f3t">Memory at full speed</h3><p data-i="f3p">Detects RAM running below its rated speed or in single-channel.</p></div>
-    <div class="card"><div class="ic">🧹</div><h3 data-i="f4t">Preinstalled extras</h3><p data-i="f4p">Finds trial antivirus and promotional apps you can remove.</p></div>
-    <div class="card"><div class="ic">🖥️</div><h3 data-i="f5t">Dead-pixel test</h3><p data-i="f5p">Full-screen colours to spot dead or stuck pixels in seconds.</p></div>
-    <div class="card"><div class="ic">📡</div><h3 data-i="f6t">Network diagnosis</h3><p data-i="f6p">Finds <em>where</em> a connection problem is: your PC, the router, your provider or DNS.</p></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="./"><img src="icon.png" alt="" width="32" height="32">PulseCheck</a>
+    <nav class="main" aria-label="Main">
+      <a href="./#features">What it checks</a>
+      <a href="./#new-pc">New PC</a>
+      <a href="./#trust">Trust</a>
+      <a href="./#download">Download</a>
+    </nav>
+    <span class="sp"></span>
+    <nav class="langs" aria-label="Language"><a href="index.html" lang="en" hreflang="en" aria-current="true">EN</a><a href="fr/index.html" lang="fr" hreflang="fr">FR</a><a href="es/index.html" lang="es" hreflang="es">ES</a><a href="de/index.html" lang="de" hreflang="de">DE</a></nav>
+    <a class="btn sm" href="./#download">Download</a>
   </div>
+</header>
 
-  <h2 data-i="how">How it works</h2>
-  <div class="steps" style="margin-top:22px">
-    <div class="card"><h3 data-i="s1t">Download</h3><p data-i="s1p">One file. Double-click to run — nothing to install.</p></div>
-    <div class="card"><h3 data-i="s2t">Scan</h3><p data-i="s2p">Click “Scan my PC”. It takes about a minute.</p></div>
-    <div class="card"><h3 data-i="s3t">Fix</h3><p data-i="s3p">Each finding comes with a plain-language fix and a shareable report.</p></div>
+<main id="main">
+
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Free · Open source · Windows 10 and 11</p>
+      <h1>Check your new PC before the return window closes.</h1>
+      <p class="lead">PulseCheck inspects a computer in about a minute: real specifications, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Plain-language results. Nothing is uploaded.</p>
+      <div class="cta">
+        <a class="btn" href="https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe">Download for Windows</a>
+        <a class="btn ghost" href="https://github.com/Brillant000/PulseCheck">View the source</a>
+      </div>
+      <p class="meta">Version 1.1.0 · 63 MB · No account · Nothing to install</p>
+    </div>
+
+    <div class="sheet" role="img" aria-label="Sample report">
+      <div class="sheet-h"><span>Sample report</span><span>PulseCheck 1.1.0</span></div>
+      <div class="score">
+        <div class="ring" style="--p:82"><b>82</b></div>
+        <p><strong>Health score</strong>Two things worth a look</p>
+      </div>
+      <ul class="rows">
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">Windows activation</span><span class="d">Activated</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">Memory speed</span><span class="d">5600 MT/s, at rated speed</span></span></li>
+        <li><span class="g warn" aria-hidden="true">!</span><span><span class="n">Battery health</span><span class="d">18 % worn. A new laptop should show almost none</span></span></li>
+        <li><span class="g warn" aria-hidden="true">!</span><span><span class="n">Preinstalled extras</span><span class="d">Trial antivirus and 2 promotional apps</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">Drive health</span><span class="d">SSD, healthy</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">Router</span><span class="d">2 ms, 0 % packet loss</span></span></li>
+      </ul>
+      <div class="sheet-f">Scanned in 58 s · nothing left this PC</div>
+    </div>
   </div>
+</section>
 
-  <h2 data-i="faq">Questions</h2>
-  <div class="faq" style="margin-top:22px">
-    <details><summary data-i="q1">Is it safe? What does it send?</summary><p data-i="a1">Nothing is uploaded and there is no telemetry. PulseCheck only reads information from your PC. The only traffic is the connection test (ping, DNS, a small web request and an optional 10 MB speed test). The source code is public.</p></details>
-    <details><summary data-i="q2">Windows says “protected your PC”. Why?</summary><p data-i="a2">The file is not code-signed yet, so SmartScreen warns about any unrecognised program. Click “More info”, then “Run anyway”. You can check the SHA-256 hash published with each release, or build it yourself from the source.</p></details>
-    <details><summary data-i="q3">Does it change anything on my PC?</summary><p data-i="a3">No. It is read-only and only suggests fixes. You decide what to do.</p></details>
-    <details><summary data-i="q4">Is it free?</summary><p data-i="a4">Yes, free and open source (MIT license).</p></details>
+<section class="shots" aria-labelledby="shot-h">
+  <div class="wrap">
+    <h2 id="shot-h">See it in action</h2>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="shots/app-en-dark.png">
+      <img src="shots/app-en-light.png" alt="PulseCheck window showing the health score and the items that need attention" width="860" height="732" loading="lazy">
+    </picture>
   </div>
+</section>
 
-  <footer>
-    <a href="https://github.com/Brillant000/PulseCheck" data-i="src">Source code on GitHub</a> · MIT ·
-    <span data-i="disc">Not affiliated with Microsoft. Provided “as is”, without warranty.</span>
-  </footer>
-</div>
+<section id="features" class="alt">
+  <div class="wrap">
+    <h2>One pass, four areas</h2>
+    <p class="sub">Every result comes with a plain-language fix, a health score out of 100 and a report you can share.</p>
+    <dl class="sheetlist">
+      <div class="r"><dt>Hardware</dt><dd>Processor, memory, graphics, drives, display resolution and refresh rate, BIOS version and serial number.</dd></div>
+      <div class="r"><dt>New-PC checks</dt><dd>Windows activation, memory speed and channels, battery wear, preinstalled extras, drive type and health.</dd></div>
+      <div class="r"><dt>Health and security</dt><dd>CPU and memory load, free space, drivers in error, startup programs, Defender, firewall, Secure Boot, TPM, Windows updates, crashes and disk errors.</dd></div>
+      <div class="r"><dt>Network</dt><dd>Router, ping, packet loss, jitter, Wi-Fi signal, DNS speed, web access, proxy and VPN, plus an optional speed test.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="new-pc">
+  <div class="wrap">
+    <h2>Made for the day you unbox</h2>
+    <p class="sub">Listings are hard to verify and return windows are short. These checks show whether the machine matches what you paid for.</p>
+    <div class="cards">
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>Battery wear</h3><p>A laptop sold as new should show almost no wear. A worn battery can mean a used or refurbished unit.</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>Memory at rated speed</h3><p>Memory often runs slower than advertised until XMP or EXPO is enabled in the BIOS. Single-channel setups are flagged too.</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>Preinstalled extras</h3><p>Finds trial antivirus and promotional apps, so you can remove them before they slow the PC down.</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>Dead-pixel test</h3><p>Full-screen colours reveal dead or stuck pixels in seconds, while the screen can still be returned.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="network" class="alt">
+  <div class="wrap">
+    <h2>Finds where the connection breaks</h2>
+    <p class="sub">Most tools just say “no internet”. PulseCheck tells you which link in the chain failed.</p>
+    <ol class="chain">
+      <li><span class="node">Your PC</span><small>Adapter and IP address</small></li>
+      <li><span class="node">Router</span><small>Ping and Wi-Fi signal</small></li>
+      <li><span class="node">Provider</span><small>Ping to 1.1.1.1 and 8.8.8.8</small></li>
+      <li><span class="node">DNS</span><small>Name lookup and web access</small></li>
+    </ol>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>PulseCheck sees</th><th>It means</th><th>Try</th></tr></thead>
+        <tbody>
+          <tr><td>The router does not answer</td><td>Local problem: cable, Wi-Fi or router</td><td>Check the cable or Wi-Fi, then restart the router</td></tr>
+          <tr><td>The router answers, the internet does not</td><td>Problem with the box or the provider</td><td>Restart the box for 30 seconds, then contact your provider</td></tr>
+          <tr><td>Internet works, names do not resolve</td><td>DNS problem</td><td>Switch to 1.1.1.1 or 8.8.8.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <h2>Built to be trusted</h2>
+    <p class="sub">You are about to run a program that reads your PC. You should be able to check it first.</p>
+    <div class="trust">
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>Open source</h3><p>Every line is public on GitHub under the MIT license. Read it, audit it, build it yourself.</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>Read-only</h3><p>PulseCheck looks at your PC and suggests fixes. It never changes your system.</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>Local by design</h3><p>No account, no telemetry, nothing uploaded. Only the connection test uses the network, with the public servers listed in the privacy policy.</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>Verifiable releases</h3><p>Each release is built by GitHub Actions from the public source and published with a SHA-256 hash and a signed build attestation.</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>A quiet website</h3><p>No cookies, no analytics, no third-party fonts or scripts on this site.</p></span></div>
+    </div>
+    <p class="more"><a href="privacy.html">Read the privacy policy</a></p>
+  </div>
+</section>
+
+<section id="download" style="padding-top:0">
+  <div class="wrap">
+    <div class="dl">
+      <h2>Download PulseCheck</h2>
+      <p class="sub">One file, free, no account.</p>
+      <a class="btn" href="https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe">Download PulseCheck.exe</a>
+      <p class="req">Windows 10 or 11, 64-bit · About 63 MB · Nothing to install, .NET is bundled</p>
+
+      <div class="dgrid">
+        <div>
+          <h3>Getting started</h3>
+          <ol>
+            <li>Download the file and double-click PulseCheck.exe.</li>
+            <li>If Windows shows “Windows protected your PC”, click More info, then Run anyway.</li>
+            <li>Click Scan my PC. For the fullest results, choose Run as administrator.</li>
+          </ol>
+          <h3 style="margin-top:26px">Why does Windows warn me?</h3>
+          <p class="s">SmartScreen warns about any program that is not yet widely downloaded or code-signed. PulseCheck is not code-signed yet. If you want certainty, verify the file as shown on the right.</p>
+        </div>
+        <div>
+          <h3>Verify your download</h3>
+          <p class="s">Compare the file with the hash published on the release page, and confirm it was built from this repository.</p>
+          <pre id="verify"><span class="c"># 1. Compare with the hash in PulseCheck.exe.sha256 on the release page</span>
+Get-FileHash .\PulseCheck.exe -Algorithm SHA256
+
+<span class="c"># 2. Confirm the build came from the public source (needs the GitHub CLI)</span>
+gh attestation verify .\PulseCheck.exe --repo Brillant000/PulseCheck</pre>
+          <button class="copy" type="button" id="copybtn" data-done="Copied">Copy</button>
+          <p class="s" style="margin-top:14px"><a href="https://github.com/Brillant000/PulseCheck/releases" style="color:#fff">All versions and hashes</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap faq">
+    <h2>Questions</h2>
+    <details><summary>Is it safe? What does it send?</summary><p>Nothing is uploaded and there is no telemetry. PulseCheck reads information from your PC and saves a report only where you choose. Its network tests contact public servers: ping, DNS, one small web request and an optional 10 MB speed test. The privacy policy lists them all.</p></details>
+    <details><summary>Does it change anything on my PC?</summary><p>No. It only reads, and suggests fixes that you apply yourself.</p></details>
+    <details><summary>Can it tell whether a PC is used or refurbished?</summary><p>It shows signs, such as battery wear or a missing activation. These are indicators, not proof.</p></details>
+    <details><summary>Do I need administrator rights?</summary><p>Not for most checks. Choose Run as administrator for the TPM check and a few others.</p></details>
+    <details><summary>Is it really free?</summary><p>Yes. It is free and open source under the MIT license, with no ads and no paid tier.</p></details>
+    <details><summary>Which languages are supported?</summary><p>English, Français, Español and Deutsch. More can be added: see the repository.</p></details>
+  </div>
+</section>
+
+</main>
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <strong>PulseCheck 1.1.0</strong>
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/Brillant000/PulseCheck">Source code</a>
+      <a href="https://github.com/Brillant000/PulseCheck/releases">Releases</a>
+      <a href="https://github.com/Brillant000/PulseCheck/issues">Report a problem</a>
+    </div>
+    <div>MIT license. Not affiliated with Microsoft. Provided “as is”, without warranty.</div>
+  </div>
+</footer>
 
 <script>
-const T={
-en:{h1:'Just bought a PC? <span>Check what you really got.</span>',sub:'A free Windows tool that inspects a new computer in about a minute: real specs, battery wear, memory speed, preinstalled junk, drive health, security and your internet connection.',dl:'Download for Windows',meta:'Free · No account · No installation · Windows 10/11 · 100 % local',why:'Made for the day you unbox',whyp:'Listings are hard to verify. PulseCheck tells you whether the machine matches what you paid for.',f1t:'Real specifications',f1p:'CPU, RAM, graphics, drives, screen resolution and refresh rate — compare with the box.',f2t:'Battery wear',f2p:'A "new" laptop with a worn battery may be used or refurbished.',f3t:'Memory at full speed',f3p:'Detects RAM running below its rated speed or in single-channel.',f4t:'Preinstalled extras',f4p:'Finds trial antivirus and promotional apps you can remove.',f5t:'Dead-pixel test',f5p:'Full-screen colours to spot dead or stuck pixels in seconds.',f6t:'Network diagnosis',f6p:'Finds <em>where</em> a connection problem is: your PC, the router, your provider or DNS.',how:'How it works',s1t:'Download',s1p:'One file. Double-click to run — nothing to install.',s2t:'Scan',s2p:'Click “Scan my PC”. It takes about a minute.',s3t:'Fix',s3p:'Each finding comes with a plain-language fix and a shareable report.',faq:'Questions',q1:'Is it safe? What does it send?',a1:'Nothing is uploaded and there is no telemetry. PulseCheck only reads information from your PC. The only traffic is the connection test (ping, DNS, a small web request and an optional 10 MB speed test). The source code is public.',q2:'Windows says “protected your PC”. Why?',a2:'The file is not code-signed yet, so SmartScreen warns about any unrecognised program. Click “More info”, then “Run anyway”. You can check the SHA-256 hash published with each release, or build it yourself from the source.',q3:'Does it change anything on my PC?',a3:'No. It is read-only and only suggests fixes. You decide what to do.',q4:'Is it free?',a4:'Yes, free and open source (MIT license).',src:'Source code on GitHub',disc:'Not affiliated with Microsoft. Provided “as is”, without warranty.'},
-fr:{h1:'Vous venez d’acheter un PC ? <span>Vérifiez ce que vous avez vraiment reçu.</span>',sub:'Un outil Windows gratuit qui inspecte un ordinateur neuf en une minute : vraies caractéristiques, usure de la batterie, vitesse mémoire, logiciels préinstallés, santé des disques, sécurité et connexion Internet.',dl:'Télécharger pour Windows',meta:'Gratuit · Sans compte · Sans installation · Windows 10/11 · 100 % local',why:'Pensé pour le jour du déballage',whyp:'Une annonce est difficile à vérifier. PulseCheck vous dit si la machine correspond à ce que vous avez payé.',f1t:'Vraies caractéristiques',f1p:'Processeur, mémoire, carte graphique, disques, résolution et fréquence de l’écran — comparez avec la boîte.',f2t:'Usure de la batterie',f2p:'Un portable « neuf » à batterie usée est peut-être d’occasion ou reconditionné.',f3t:'Mémoire à pleine vitesse',f3p:'Détecte une mémoire sous sa vitesse nominale ou en simple canal.',f4t:'Logiciels préinstallés',f4p:'Repère antivirus d’essai et applications promotionnelles à supprimer.',f5t:'Test de pixels morts',f5p:'Des couleurs plein écran pour repérer les pixels morts ou bloqués en quelques secondes.',f6t:'Diagnostic réseau',f6p:'Trouve <em>où</em> se situe un problème de connexion : votre PC, le routeur, votre opérateur ou le DNS.',how:'Comment ça marche',s1t:'Télécharger',s1p:'Un seul fichier. Double-clic pour lancer — rien à installer.',s2t:'Analyser',s2p:'Cliquez sur « Analyser mon PC ». Environ une minute.',s3t:'Corriger',s3p:'Chaque résultat s’accompagne d’une solution claire et d’un rapport partageable.',faq:'Questions',q1:'Est-ce sûr ? Que transmet-il ?',a1:'Rien n’est envoyé et il n’y a aucune télémétrie. PulseCheck lit seulement des informations de votre PC. Le seul trafic est le test de connexion (ping, DNS, une petite requête web et un test de débit de 10 Mo optionnel). Le code source est public.',q2:'Windows indique « a protégé votre PC ». Pourquoi ?',a2:'Le fichier n’est pas encore signé numériquement : SmartScreen avertit pour tout programme non reconnu. Cliquez sur « Informations complémentaires » puis « Exécuter quand même ». Vous pouvez vérifier l’empreinte SHA-256 publiée avec chaque version, ou compiler vous-même.',q3:'Modifie-t-il quelque chose sur mon PC ?',a3:'Non. Il est en lecture seule et propose seulement des solutions. Vous décidez.',q4:'Est-il gratuit ?',a4:'Oui, gratuit et open source (licence MIT).',src:'Code source sur GitHub',disc:'Sans lien avec Microsoft. Fourni « tel quel », sans garantie.'},
-es:{h1:'¿Acabas de comprar un PC? <span>Comprueba lo que recibiste de verdad.</span>',sub:'Una herramienta gratuita para Windows que inspecciona un ordenador nuevo en un minuto: especificaciones reales, desgaste de la batería, velocidad de memoria, software preinstalado, estado de los discos, seguridad y conexión a Internet.',dl:'Descargar para Windows',meta:'Gratis · Sin cuenta · Sin instalación · Windows 10/11 · 100 % local',why:'Pensada para el día que lo desembalas',whyp:'Un anuncio es difícil de verificar. PulseCheck te dice si el equipo corresponde a lo que pagaste.',f1t:'Especificaciones reales',f1p:'Procesador, RAM, gráficos, unidades, resolución y frecuencia de pantalla — compáralo con la caja.',f2t:'Desgaste de la batería',f2p:'Un portátil «nuevo» con batería gastada puede ser usado o reacondicionado.',f3t:'Memoria a toda velocidad',f3p:'Detecta RAM por debajo de su velocidad nominal o en canal simple.',f4t:'Software preinstalado',f4p:'Encuentra antivirus de prueba y aplicaciones promocionales que puedes quitar.',f5t:'Prueba de píxeles muertos',f5p:'Colores a pantalla completa para detectar píxeles muertos o fijos en segundos.',f6t:'Diagnóstico de red',f6p:'Encuentra <em>dónde</em> está un problema de conexión: tu PC, el router, tu operador o el DNS.',how:'Cómo funciona',s1t:'Descargar',s1p:'Un solo archivo. Doble clic para ejecutar — nada que instalar.',s2t:'Analizar',s2p:'Pulsa «Analizar mi PC». Tarda aproximadamente un minuto.',s3t:'Corregir',s3p:'Cada resultado incluye una solución clara y un informe que puedes compartir.',faq:'Preguntas',q1:'¿Es seguro? ¿Qué envía?',a1:'No se sube nada y no hay telemetría. PulseCheck solo lee información de tu PC. El único tráfico es la prueba de conexión (ping, DNS, una pequeña petición web y una prueba de velocidad opcional de 10 MB). El código fuente es público.',q2:'Windows dice «protegió tu PC». ¿Por qué?',a2:'El archivo aún no está firmado digitalmente, así que SmartScreen avisa ante cualquier programa no reconocido. Pulsa «Más información» y luego «Ejecutar de todas formas». Puedes comprobar el hash SHA-256 publicado con cada versión o compilarlo tú mismo.',q3:'¿Cambia algo en mi PC?',a3:'No. Es de solo lectura y solo sugiere soluciones. Tú decides.',q4:'¿Es gratuito?',a4:'Sí, gratuito y de código abierto (licencia MIT).',src:'Código fuente en GitHub',disc:'Sin relación con Microsoft. Se ofrece «tal cual», sin garantía.'},
-de:{h1:'Gerade einen PC gekauft? <span>Prüfen Sie, was Sie wirklich bekommen haben.</span>',sub:'Ein kostenloses Windows-Tool, das einen neuen Computer in etwa einer Minute prüft: echte Spezifikationen, Akkuverschleiß, Speichergeschwindigkeit, vorinstallierte Software, Laufwerkszustand, Sicherheit und Internetverbindung.',dl:'Für Windows herunterladen',meta:'Kostenlos · Kein Konto · Keine Installation · Windows 10/11 · 100 % lokal',why:'Gemacht für den Tag des Auspackens',whyp:'Angebote lassen sich schwer überprüfen. PulseCheck sagt Ihnen, ob das Gerät dem entspricht, was Sie bezahlt haben.',f1t:'Echte Spezifikationen',f1p:'CPU, RAM, Grafik, Laufwerke, Bildschirmauflösung und Bildwiederholrate — vergleichen Sie mit der Verpackung.',f2t:'Akkuverschleiß',f2p:'Ein „neuer“ Laptop mit abgenutztem Akku ist möglicherweise gebraucht oder generalüberholt.',f3t:'Speicher mit voller Geschwindigkeit',f3p:'Erkennt RAM unterhalb der Nenngeschwindigkeit oder im Single-Channel.',f4t:'Vorinstallierte Zusatzsoftware',f4p:'Findet Test-Antivirus und Werbe-Apps, die Sie entfernen können.',f5t:'Pixelfehler-Test',f5p:'Vollbild-Farben, um defekte oder hängende Pixel in Sekunden zu finden.',f6t:'Netzwerkdiagnose',f6p:'Findet heraus, <em>wo</em> ein Verbindungsproblem liegt: PC, Router, Anbieter oder DNS.',how:'So funktioniert es',s1t:'Herunterladen',s1p:'Eine Datei. Doppelklick zum Starten — nichts zu installieren.',s2t:'Prüfen',s2p:'Klicken Sie auf „Meinen PC prüfen“. Das dauert etwa eine Minute.',s3t:'Beheben',s3p:'Zu jedem Ergebnis gibt es eine verständliche Lösung und einen teilbaren Bericht.',faq:'Fragen',q1:'Ist es sicher? Was wird gesendet?',a1:'Es wird nichts hochgeladen und es gibt keine Telemetrie. PulseCheck liest nur Informationen von Ihrem PC. Der einzige Datenverkehr ist der Verbindungstest (Ping, DNS, eine kleine Webanfrage und ein optionaler 10-MB-Geschwindigkeitstest). Der Quellcode ist öffentlich.',q2:'Windows meldet „Der PC wurde geschützt“. Warum?',a2:'Die Datei ist noch nicht digital signiert, daher warnt SmartScreen vor jedem unbekannten Programm. Klicken Sie auf „Weitere Informationen“ und dann auf „Trotzdem ausführen“. Sie können den mit jeder Version veröffentlichten SHA-256-Hash prüfen oder selbst kompilieren.',q3:'Ändert es etwas an meinem PC?',a3:'Nein. Es arbeitet nur lesend und schlägt lediglich Lösungen vor. Sie entscheiden.',q4:'Ist es kostenlos?',a4:'Ja, kostenlos und quelloffen (MIT-Lizenz).',src:'Quellcode auf GitHub',disc:'Nicht mit Microsoft verbunden. Bereitgestellt „wie besehen“, ohne Gewährleistung.'}
-};
-const shots={en:'screenshot-en.png',fr:'screenshot-fr.png',es:'screenshot-en.png',de:'screenshot-en.png'};
-function setLang(l){
-  const t=T[l]||T.en; document.documentElement.lang=l;
-  document.querySelectorAll('[data-i]').forEach(e=>{const v=t[e.dataset.i]; if(v!==undefined) e.innerHTML=v;});
-  document.getElementById('shot').src=shots[l]||shots.en;
-  document.getElementById('lang').value=l;
-  try{localStorage.setItem('lang',l)}catch(e){}
-}
-const saved=(()=>{try{return localStorage.getItem('lang')}catch(e){return null}})();
-const nav=(navigator.language||'en').slice(0,2);
-setLang(T[saved]?saved:(T[nav]?nav:'en'));
-document.getElementById('lang').addEventListener('change',e=>setLang(e.target.value));
+(function(){
+  var b=document.getElementById('copybtn'),p=document.getElementById('verify');
+  if(!b||!p) return;
+  b.addEventListener('click',function(){
+    var t=p.innerText;
+    function done(){var o=b.textContent;b.textContent=b.dataset.done;setTimeout(function(){b.textContent=o},1800)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+  });
+})();
 </script>
 </body>
 </html>

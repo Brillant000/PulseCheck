@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brillant000.github.io/PulseCheck/sitemap.xml

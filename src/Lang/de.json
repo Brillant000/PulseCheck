@@ -91,5 +91,6 @@
   "ui.screentest_hint": "Test auf defekte Pixel. Klicken oder eine Taste drücken für die nächste Farbe. Mit Esc beenden.",
   "ui.privacy": "100 % lokal: Es wird nichts gesendet, außer den Netzwerktests (Ping, DNS, eine kleine Webanfrage).",
   "ui.not_admin": "Nicht als Administrator ausgeführt: einige Prüfungen sind eingeschränkt.",
-  "ui.report_title": "PulseCheck-Bericht"
+  "ui.report_title": "PulseCheck-Bericht",
+  "ui.attention": "Braucht Ihre Aufmerksamkeit", "ui.allgood": "Nichts erfordert Ihre Aufmerksamkeit. Dieser PC wirkt gesund.", "ui.copy": "Zusammenfassung kopieren", "ui.copied": "Kopiert", "ui.theme": "Zwischen hellem und dunklem Design wechseln"
 }

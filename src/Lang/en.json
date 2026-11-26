@@ -91,5 +91,6 @@
   "ui.screentest_hint": "Dead-pixel test. Click or press any key for the next colour. Press Esc to exit.",
   "ui.privacy": "100 % local: nothing is sent anywhere except the network tests (ping, DNS, a small web request).",
   "ui.not_admin": "Not running as administrator: a few checks are limited.",
-  "ui.report_title": "PulseCheck report"
+  "ui.report_title": "PulseCheck report",
+  "ui.attention": "Needs your attention", "ui.allgood": "Nothing needs your attention. This PC looks healthy.", "ui.copy": "Copy summary", "ui.copied": "Copied", "ui.theme": "Switch light / dark theme"
 }

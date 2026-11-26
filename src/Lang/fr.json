@@ -91,5 +91,6 @@
   "ui.screentest_hint": "Test de pixels morts. Cliquez ou appuyez sur une touche pour la couleur suivante. Échap pour quitter.",
   "ui.privacy": "100 % local : rien n'est envoyé, hormis les tests réseau (ping, DNS, une petite requête web).",
   "ui.not_admin": "Pas en administrateur : quelques tests sont limités.",
-  "ui.report_title": "Rapport PulseCheck"
+  "ui.report_title": "Rapport PulseCheck",
+  "ui.attention": "À surveiller", "ui.allgood": "Rien à signaler. Ce PC semble en bonne santé.", "ui.copy": "Copier le résumé", "ui.copied": "Copié", "ui.theme": "Basculer thème clair / sombre"
 }

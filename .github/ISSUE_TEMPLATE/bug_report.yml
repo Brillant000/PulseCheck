@@ -1,0 +1,38 @@
+name: Bug report
+description: Something is wrong, missing or misleading in PulseCheck
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: PulseCheck version
+      description: Shown next to the name at the top of the window.
+      placeholder: "1.1.0"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: "Windows 11 23H2"
+    validations:
+      required: true
+  - type: dropdown
+    id: pctype
+    attributes:
+      label: Type of PC
+      options: [Laptop, Desktop, All-in-one, Virtual machine, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see instead? A wrong result, a crash, a message in the wrong language...
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshot or summary
+      description: Use "Copy summary" in the app, or drag a screenshot here. The summary does not contain your computer name.

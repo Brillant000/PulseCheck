@@ -91,5 +91,6 @@
   "ui.screentest_hint": "Prueba de píxeles muertos. Haga clic o pulse una tecla para el siguiente color. Esc para salir.",
   "ui.privacy": "100 % local: no se envía nada salvo las pruebas de red (ping, DNS, una pequeña petición web).",
   "ui.not_admin": "No se ejecuta como administrador: algunas pruebas son limitadas.",
-  "ui.report_title": "Informe de PulseCheck"
+  "ui.report_title": "Informe de PulseCheck",
+  "ui.attention": "Requiere tu atención", "ui.allgood": "Nada requiere tu atención. Este PC parece sano.", "ui.copy": "Copiar resumen", "ui.copied": "Copiado", "ui.theme": "Cambiar tema claro / oscuro"
 }
