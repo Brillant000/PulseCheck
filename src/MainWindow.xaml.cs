@@ -16,6 +16,9 @@ public partial class MainWindow : Window
     HardwareInfo? hw;
     Usage usage = Usage.Gaming;
     bool solutions;
+    readonly List<Applied> applied = new();
+    readonly HashSet<string> doneFix = new();
+    sealed record Applied(Fix Fix, FixOutcome Outcome);
     readonly string[] cli = Environment.GetCommandLineArgs();
     static readonly string Ver = typeof(MainWindow).Assembly.GetName().Version is { } v ? $"{v.Major}.{v.Minor}.{v.Build}" : "";
 
@@ -49,6 +52,12 @@ public partial class MainWindow : Window
             SpeedBox.IsChecked = Has("--speed");
             await ScanAsync();
             if (Arg("--profile") != null) { usage = Enum.Parse<Usage>(Arg("--profile")!, true); SelectProfile(); Render(); }
+            if (Arg("--fix-preview") is string fid && Arg("--fix-out") is string fout && Fixes.Create(fid) is Fix pf)
+            {
+                FixDialog.Preview(this, pf, hw, fout);
+                Application.Current.Shutdown();
+                return;
+            }
             if (double.TryParse(Arg("--scroll"), out var off)) Scroller.ScrollToVerticalOffset(off);
             await Task.Delay(700);
             Shot(shot);
@@ -258,6 +267,8 @@ public partial class MainWindow : Window
         }
         ResultsPanel.Children.Add(pills);
 
+        RenderApplied();
+
         var attention = results.Where(r => r.Status is Status.Fail or Status.Warn).OrderBy(r => r.Status).ToList();
         ResultsPanel.Children.Add(Text(Loc.T("ui.attention"), 16, FontWeights.SemiBold, "Ink", new Thickness(2, 6, 0, 8)));
         if (attention.Count == 0)
@@ -284,12 +295,102 @@ public partial class MainWindow : Window
         }
     }
 
-    static UIElement Row(CheckResult r, bool last)
+    // ------------------------------------------------------------------ fixes
+    Button SmallBtn(string text, bool primary)
+    {
+        var b = new Button { Content = text, Padding = new Thickness(14, 6, 14, 6), Margin = new Thickness(12, 0, 0, 0), VerticalAlignment = VerticalAlignment.Top };
+        b.Style = (Style)FindResource(primary ? "Primary" : "Btn");
+        if (primary) b.Padding = new Thickness(14, 6, 14, 6);
+        return b;
+    }
+
+    /// <summary>The action control of a finding: Fix (we change it), Open (Windows page), or Done.</summary>
+    UIElement? ActionFor(string? fixId, string? openUri)
+    {
+        if (fixId != null)
+        {
+            if (doneFix.Contains(fixId)) return Text("✓ " + Loc.T("fx.done"), 13, FontWeights.SemiBold, "Ok", new Thickness(12, 5, 0, 0));
+            var b = SmallBtn(Loc.T("fx.btn"), true);
+            b.Click += (_, _) => RunFix(fixId);
+            return b;
+        }
+        if (openUri != null)
+        {
+            var b = SmallBtn(Loc.T("fx.open"), false);
+            b.Click += (_, _) => { try { Process.Start(new ProcessStartInfo(openUri) { UseShellExecute = true }); } catch { } };
+            return b;
+        }
+        return null;
+    }
+
+    async void RunFix(string id)
+    {
+        var fix = Fixes.Create(id);
+        if (fix == null) return;
+        if (!FixDialog.Confirm(this, fix, hw)) return;
+
+        FixOutcome o;
+        try { o = await Task.Run(() => fix.Apply(hw)); }
+        catch (Exception e) { o = new FixOutcome(false, new Msg("fx.failed", e.Message)); }
+
+        if (o.Ok)
+        {
+            FixLog.Write("APPLY", fix.Id, fix.Title.Text);
+            applied.Add(new Applied(fix, o));
+            doneFix.Add(id);
+        }
+        else
+        {
+            FixLog.Write("FAILED", fix.Id, o.Error?.Text ?? "");
+            FixDialog.Info(this, fix.Title.Text, o.Error?.Text ?? "?");
+        }
+        Render();
+    }
+
+    void UndoFix(Applied a)
+    {
+        try { a.Outcome.Undo?.Invoke(); FixLog.Write("UNDO", a.Fix.Id, a.Fix.Title.Text); }
+        catch (Exception e) { FixLog.Write("UNDOERR", a.Fix.Id, e.Message); }
+        applied.Remove(a); doneFix.Remove(a.Fix.Id);
+        Render();
+    }
+
+    void RenderApplied()
+    {
+        if (applied.Count == 0) return;
+        ResultsPanel.Children.Add(Text(Loc.T("fx.changes"), 16, FontWeights.SemiBold, "Ink", new Thickness(2, 6, 0, 8)));
+        var list = new StackPanel { Margin = new Thickness(0) };
+        for (int i = 0; i < applied.Count; i++)
+        {
+            var a = applied[i];
+            var row = new DockPanel { Margin = new Thickness(16, 11, 16, 11) };
+            if (a.Outcome.Undo != null)
+            {
+                var undo = SmallBtn(Loc.T("fx.undo"), false); undo.Margin = new Thickness(12, 0, 0, 0);
+                undo.Click += (_, _) => UndoFix(a);
+                DockPanel.SetDock(undo, Dock.Right);
+                row.Children.Add(undo);
+            }
+            var left = new StackPanel { Orientation = Orientation.Horizontal };
+            left.Children.Add(Badge(Status.Ok));
+            var txt = new StackPanel { Margin = new Thickness(14, 2, 0, 0) };
+            txt.Children.Add(Text(a.Fix.Title.Text, 13.5, FontWeights.SemiBold));
+            if (a.Outcome.Note != null) txt.Children.Add(Text(a.Outcome.Note.Text, 12.5, null, "Muted"));
+            left.Children.Add(txt);
+            row.Children.Add(left);
+            list.Children.Add(new Border { BorderBrush = Theme.Br("Line"), BorderThickness = new Thickness(0, 0, 0, i == applied.Count - 1 ? 0 : 1), Child = row });
+        }
+        list.Children.Add(Text(Loc.T("fx.rescan") + "  " + Loc.T("fx.log", FixLog.FilePath), 11.5, null, "Muted", new Thickness(16, 0, 16, 12)));
+        ResultsPanel.Children.Add(Card(list));
+    }
+
+    UIElement Row(CheckResult r, bool last)
     {
         var g = new Grid { Margin = new Thickness(16, 11, 16, 11) };
         g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(42) });
         g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(240) });
         g.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        g.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var name = Text(r.Name.Text, 13.5, FontWeights.SemiBold, "Ink", new Thickness(0, 3, 14, 0));
         Grid.SetColumn(name, 1);
@@ -300,6 +401,8 @@ public partial class MainWindow : Window
         Grid.SetColumn(detail, 2);
 
         g.Children.Add(Badge(r.Status)); g.Children.Add(name); g.Children.Add(detail);
+        var action = ActionFor(Fixes.ForCheck(r), Fixes.OpenTargetForCheck(r));
+        if (action != null) { Grid.SetColumn(action, 3); g.Children.Add(action); }
         return new Border { BorderBrush = Theme.Br("Line"), BorderThickness = new Thickness(0, 0, 0, last ? 0 : 1), Child = g };
     }
 
@@ -385,12 +488,24 @@ public partial class MainWindow : Window
             foreach (var n in s.Notes) sp.Children.Add(Text("• " + n.Text, 12.5, null, "Muted", new Thickness(0, 0, 0, 1)));
         }
 
-        if (s.OpenUri != null)
+        if (s.FixId != null || s.OpenUri != null)
         {
-            var b = new Button { Content = Loc.T("a.ui.open"), Style = (Style)FindResource("Btn"), Margin = new Thickness(0, 10, 0, 0), HorizontalAlignment = HorizontalAlignment.Left, Padding = new Thickness(14, 6, 14, 6) };
-            var uri = s.OpenUri;
-            b.Click += (_, _) => { try { Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true }); } catch { } };
-            sp.Children.Add(b);
+            var bar = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
+            if (s.FixId != null)
+            {
+                var fx = ActionFor(s.FixId, null);
+                if (fx is Button fb) fb.Margin = new Thickness(0, 0, 8, 0);
+                if (fx is TextBlock ft) ft.Margin = new Thickness(0, 5, 12, 0);
+                if (fx != null) bar.Children.Add(fx);
+            }
+            if (s.OpenUri != null)
+            {
+                var b = SmallBtn(Loc.T("a.ui.open"), false); b.Margin = new Thickness(0);
+                var uri = s.OpenUri;
+                b.Click += (_, _) => { try { Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true }); } catch { } };
+                bar.Children.Add(b);
+            }
+            sp.Children.Add(bar);
         }
         return Card(sp);
     }

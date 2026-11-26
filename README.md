@@ -28,6 +28,25 @@ The **Solutions** tab compares your hardware with your screen and what you use t
 
 Performance classes (1 to 10) are estimates kept in [`src/Data/hardware.json`](src/Data/hardware.json). PulseCheck has no ads and no affiliate links.
 
+### One-click fixes
+
+Next to a warning you may see **Fix**. It never runs by itself: PulseCheck first shows exactly what it will change, you confirm, and it is recorded in a local log (`%LOCALAPPDATA%\PulseCheck\changes.log`). Most fixes have **Undo**.
+
+| Fix | What it changes | Undo |
+|---|---|---|
+| Game capture off, Game Mode on | Two or three Windows settings for your account | Yes |
+| Proxy off | The Windows proxy switch for your account | Yes |
+| Power saver to Balanced | The active power plan | Yes |
+| Full refresh rate | The display mode, only to a mode Windows confirms is supported | Yes |
+| Startup programs | Switches off the ones you tick, like Task Manager. Nothing is uninstalled | Yes |
+| Restart | Restarts in 60 seconds | Cancel during the countdown |
+| Clean temporary files | Deletes temp files older than one day. Skips files in use. Documents, downloads and the Recycle Bin are untouched | No |
+| Remove preinstalled Store apps | Removes the Store apps you tick, for your account | No (reinstall from the Store) |
+
+![Confirmation before a fix](docs/shots/fix-en-light.png)
+
+PulseCheck does not change your antivirus, firewall, drivers or BIOS, and never installs software. For findings it cannot fix safely, the button opens the right Windows page instead.
+
 Every finding comes with a plain-language fix. You also get a health score out of 100, a "needs your attention" list, a one-click summary to copy, a shareable HTML report and a full-screen dead-pixel test.
 
 English, Français, Español and Deutsch. Light and dark themes follow Windows.
@@ -48,7 +67,7 @@ For the most complete results, use **Run as administrator** (the TPM check needs
 
 ## Privacy
 
-100 % local. No account, no telemetry, nothing uploaded, and the app is read-only. The only network traffic is the connection test: ping to your router, `1.1.1.1` and `8.8.8.8`; a DNS lookup and an HTTPS connection to `www.microsoft.com`; one small request to `www.msftconnecttest.com`; and, if you tick it, a 10 MB download from `speed.cloudflare.com`.
+100 % local. No account, no telemetry, nothing uploaded. Scanning is read-only. The only network traffic is the connection test: ping to your router, `1.1.1.1` and `8.8.8.8`; a DNS lookup and an HTTPS connection to `www.microsoft.com`; one small request to `www.msftconnecttest.com`; and, if you tick it, a 10 MB download from `speed.cloudflare.com`.
 Details: [privacy policy](https://brillant000.github.io/PulseCheck/privacy.html). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 ## Build from source

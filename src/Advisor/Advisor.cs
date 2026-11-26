@@ -7,7 +7,7 @@ public enum SugKind { Quick, Settings, Upgrade }
 /// <summary>One recommendation: why (A + B), what to do, and what to check before buying.</summary>
 public sealed record Suggestion(
     SugKind Kind, int Priority, Msg Title, IReadOnlyList<Msg> Because, Msg Action,
-    int Cost, string? Gain, IReadOnlyList<Msg> Notes, string? OpenUri = null);
+    int Cost, string? Gain, IReadOnlyList<Msg> Notes, string? OpenUri = null, string? FixId = null);
 
 /// <summary>
 /// Turns the detected hardware and the chosen usage into concrete solutions.
@@ -39,8 +39,8 @@ public static class Advisor
     public static int NeededVramGB(int w, int h) => Resolution(w, h) switch { 1 => 8, 2 => 12, _ => 16 };
 
     static Suggestion Make(SugKind kind, int prio, string title, Msg[] because, Msg action, int cost,
-                           string? gain = null, string? uri = null, params Msg[] notes)
-        => new(kind, prio, M(title), because, action, cost, gain, notes, uri);
+                           string? gain = null, string? uri = null, string? fixId = null, params Msg[] notes)
+        => new(kind, prio, M(title), because, action, cost, gain, notes, uri, fixId);
 
     public static List<Suggestion> Build(HardwareInfo h, Usage u)
     {
@@ -54,13 +54,13 @@ public static class Advisor
         if (h.ScreenHz > 0 && h.ScreenMaxHz > h.ScreenHz)
             list.Add(Make(SugKind.Quick, gaming ? 1 : 3, "a.t.refresh",
                 new[] { M("a.b.refresh1", h.ScreenHz), M("a.b.refresh2", h.ScreenMaxHz, h.ScreenW, h.ScreenH) },
-                M("a.x.refresh", h.ScreenMaxHz), 0, "a.gain.large", "ms-settings:display-advanced"));
+                M("a.x.refresh", h.ScreenMaxHz), 0, "a.gain.large", "ms-settings:display-advanced", "refresh"));
 
         bool lowMem = (h.RamType == "DDR5" && h.RamSpeed > 0 && h.RamSpeed <= 4800) || (h.RamType == "DDR4" && h.RamSpeed > 0 && h.RamSpeed <= 2666);
         if (lowMem && u != Usage.Work && !h.RamSoldered && !h.IsLaptop)
             list.Add(Make(SugKind.Quick, 2, "a.t.xmp",
                 new[] { M("a.b.xmp1", h.RamType, h.RamSpeed), M("a.b.xmp2") },
-                M("a.x.xmp"), 0, "a.gain.moderate", null, M("a.z.bios_safe")));
+                M("a.x.xmp"), 0, "a.gain.moderate", null, null, M("a.z.bios_safe")));
 
         if (h.GpuDriverDate is DateTime dd && (DateTime.Now - dd).TotalDays > 180)
         {
@@ -72,27 +72,27 @@ public static class Advisor
 
         if (gaming && h.GameDvrOn)
             list.Add(Make(SugKind.Quick, 3, "a.t.gamedvr", new[] { M("a.b.gamedvr1"), M("a.b.gamedvr2") },
-                M("a.x.gamedvr"), 0, "a.gain.small", "ms-settings:gaming-gamedvr"));
+                M("a.x.gamedvr"), 0, "a.gain.small", "ms-settings:gaming-gamedvr", "game_capture"));
 
         if (gaming && h.GameModeOff)
             list.Add(Make(SugKind.Quick, 3, "a.t.gamemode", new[] { M("a.b.gamemode1"), M("a.b.gamemode2") },
-                M("a.x.gamemode"), 0, "a.gain.small", "ms-settings:gaming-gamemode"));
+                M("a.x.gamemode"), 0, "a.gain.small", "ms-settings:gaming-gamemode", "game_mode"));
 
         if (h.StartupCount > 12)
             list.Add(Make(SugKind.Quick, 3, "a.t.startup", new[] { M("a.b.startup1", h.StartupCount), M("a.b.startup2") },
-                M("a.x.startup"), 0, "a.gain.small", "ms-settings:startupapps"));
+                M("a.x.startup"), 0, "a.gain.small", "ms-settings:startupapps", "startup"));
 
         if (h.PowerPlan == PowerSaver)
             list.Add(Make(SugKind.Quick, 1, "a.t.powerplan", new[] { M("a.b.powerplan1"), M("a.b.powerplan2") },
-                M("a.x.powerplan"), 0, "a.gain.large", "ms-settings:powersleep"));
+                M("a.x.powerplan"), 0, "a.gain.large", "ms-settings:powersleep", "power"));
 
         if (h.SysFreeGB > 0 && h.SysFreePct < 15)
             list.Add(Make(SugKind.Quick, 2, "a.t.storage", new[] { M("a.b.storage1", h.SysFreePct, h.SysFreeGB), M("a.b.storage2") },
-                M("a.x.storage"), 0, "a.gain.moderate", "ms-settings:storagesense"));
+                M("a.x.storage"), 0, "a.gain.moderate", "ms-settings:storagesense", "cleantemp"));
 
         if (h.UptimeDays > 14)
             list.Add(Make(SugKind.Quick, 4, "a.t.restart", new[] { M("a.b.restart1", h.UptimeDays), M("a.b.restart2") },
-                M("a.x.restart"), 0, "a.gain.small"));
+                M("a.x.restart"), 0, "a.gain.small", null, "restart"));
 
         // ------------------------------------------------------------ settings for this hardware
         if (gaming && gpu is int g && hz > 0 && h.ScreenW > 0)

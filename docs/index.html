@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"1.2.0","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe","description":"Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"1.3.0","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe","description":"Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
 </head>
 <body>
@@ -58,11 +58,11 @@
         <a class="btn" href="https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe">Download for Windows</a>
         <a class="btn ghost" href="https://github.com/Brillant000/PulseCheck">View the source</a>
       </div>
-      <p class="meta">Version 1.2.0 · 63 MB · No account · Nothing to install</p>
+      <p class="meta">Version 1.3.0 · 63 MB · No account · Nothing to install</p>
     </div>
 
     <div class="sheet" role="img" aria-label="Sample report">
-      <div class="sheet-h"><span>Sample report</span><span>PulseCheck 1.2.0</span></div>
+      <div class="sheet-h"><span>Sample report</span><span>PulseCheck 1.3.0</span></div>
       <div class="score">
         <div class="ring" style="--p:82"><b>82</b></div>
         <p><strong>Health score</strong>Two things worth a look</p>
@@ -108,7 +108,7 @@
     <h2>Solutions, not just problems</h2>
     <p class="sub">Tell PulseCheck what you use the PC for. It compares your hardware with your screen and your usage, then explains what to change, in order of value.</p>
     <div class="cards">
-      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Quick wins, free</h3><p>Refresh rate stuck at 60 Hz, memory below its rated speed, an old graphics driver, too many startup programs: fixed in minutes, with the exact menu to open.</p></div>
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Quick wins, free</h3><p>Refresh rate stuck at 60 Hz, memory below its rated speed, an old graphics driver, too many startup programs. Many have a Fix button that shows what it will change and asks you first; the others show the exact menu to open.</p></div>
       <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Settings for your hardware</h3><p>Graphics presets matched to your card and your display, with the right upscaler (DLSS, FSR or XeSS) and a sensible frame cap.</p></div>
       <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Upgrades, explained A + B</h3><p>Your graphics card (A) and your 1440p 144 Hz screen (B) call for a class 7 card. Each suggestion shows its reasons, a cost range and what to check first, such as the power supply.</p></div>
     </div>
@@ -161,7 +161,7 @@
     <p class="sub">You are about to run a program that reads your PC. You should be able to check it first.</p>
     <div class="trust">
       <div><span class="g" aria-hidden="true">✓</span><span><h3>Open source</h3><p>Every line is public on GitHub under the MIT license. Read it, audit it, build it yourself.</p></span></div>
-      <div><span class="g" aria-hidden="true">✓</span><span><h3>Read-only</h3><p>PulseCheck looks at your PC and suggests fixes. It never changes your system.</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>You stay in control</h3><p>Scanning only reads. A Fix runs only when you press it, after showing exactly what it will change. Changes are logged on your PC and most can be undone.</p></span></div>
       <div><span class="g" aria-hidden="true">✓</span><span><h3>Local by design</h3><p>No account, no telemetry, nothing uploaded. Only the connection test uses the network, with the public servers listed in the privacy policy.</p></span></div>
       <div><span class="g" aria-hidden="true">✓</span><span><h3>Verifiable releases</h3><p>Each release is built by GitHub Actions from the public source and published with a SHA-256 hash and a signed build attestation.</p></span></div>
       <div><span class="g" aria-hidden="true">✓</span><span><h3>A quiet website</h3><p>No cookies, no analytics, no third-party fonts or scripts on this site.</p></span></div>
@@ -209,7 +209,7 @@ gh attestation verify .\PulseCheck.exe --repo Brillant000/PulseCheck</pre>
   <div class="wrap faq">
     <h2>Questions</h2>
     <details><summary>Is it safe? What does it send?</summary><p>Nothing is uploaded and there is no telemetry. PulseCheck reads information from your PC and saves a report only where you choose. Its network tests contact public servers: ping, DNS, one small web request and an optional 10 MB speed test. The privacy policy lists them all.</p></details>
-    <details><summary>Does it change anything on my PC?</summary><p>No. It only reads, and suggests fixes that you apply yourself.</p></details>
+    <details><summary>Does it change anything on my PC?</summary><p>Scanning never changes anything. If you press Fix, PulseCheck shows exactly what it will do and asks you to confirm. Most changes can be undone from the app, and a record is kept on your PC. It never installs software or touches your antivirus or firewall.</p></details>
     <details><summary>Can it tell whether a PC is used or refurbished?</summary><p>It shows signs, such as battery wear or a missing activation. These are indicators, not proof.</p></details>
     <details><summary>Do I need administrator rights?</summary><p>Not for most checks. Choose Run as administrator for the TPM check and a few others.</p></details>
     <details><summary>Is it really free?</summary><p>Yes. It is free and open source under the MIT license, with no ads and no paid tier.</p></details>
@@ -222,7 +222,7 @@ gh attestation verify .\PulseCheck.exe --repo Brillant000/PulseCheck</pre>
 <footer class="site">
   <div class="wrap">
     <div class="cols">
-      <strong>PulseCheck 1.2.0</strong>
+      <strong>PulseCheck 1.3.0</strong>
       <a href="privacy.html">Privacy</a>
       <a href="https://github.com/Brillant000/PulseCheck">Source code</a>
       <a href="https://github.com/Brillant000/PulseCheck/releases">Releases</a>

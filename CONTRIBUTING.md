@@ -15,7 +15,7 @@ Useful flags: `--lang fr`, `--theme dark`, `--screenshot out.png [--speed] [--sc
 
 ## Principles
 
-- **Read-only.** A check must never change the user's system.
+- **Checks never change anything.** Only a *Fix* may change the system, and only after the user has seen exactly what it will do and confirmed. A fix must touch nothing beyond its announced plan, be reversible whenever possible, write to the local log, and be tested against a scratch registry or temp folder (see `tests/PulseCheck.Tests/FixTests.cs`). Never fix antivirus, firewall, drivers or BIOS settings silently.
 - **Local.** No telemetry, no uploads. Any new network request must be added to the privacy policy.
 - **Plain language.** Every warning needs a short, concrete fix.
 

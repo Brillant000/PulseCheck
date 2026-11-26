@@ -294,7 +294,7 @@ public sealed class Scanner
     }
 
     // ------------------------------------------------------------------ NEW PC
-    static readonly string[] Bloat =
+    internal static readonly string[] Bloat =
         { "McAfee", "Norton", "Avast", "WildTangent", "CandyCrush", "Candy Crush", "Booking", "ExpressVPN", "TikTok", "Disney", "Hulu" };
 
     void NewPc()

@@ -118,21 +118,7 @@ public sealed class GpuDb
 
 public static class HardwareProbe
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    struct DEVMODE
-    {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName;
-        public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
-        public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput;
-        public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName;
-        public short dmLogPixels;
-        public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency;
-        public int dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight;
-    }
 
-    [DllImport("user32.dll", CharSet = CharSet.Ansi)]
-    static extern bool EnumDisplaySettings(string? deviceName, int modeNum, ref DEVMODE devMode);
 
     static string S(ManagementBaseObject? o, string p) => (Wmi.G<string>(o, p) ?? "").Trim();
 
@@ -208,14 +194,14 @@ public static class HardwareProbe
 
         try
         {
-            var cur = new DEVMODE { dmSize = (short)Marshal.SizeOf<DEVMODE>() };
-            if (EnumDisplaySettings(null, -1, ref cur))
+            var cur = Native.NewMode();
+            if (Native.EnumDisplaySettings(null, -1, ref cur))
             {
                 h.ScreenW = cur.dmPelsWidth; h.ScreenH = cur.dmPelsHeight; h.ScreenHz = cur.dmDisplayFrequency; h.ScreenMaxHz = cur.dmDisplayFrequency;
                 for (int i = 0; ; i++)
                 {
-                    var m = new DEVMODE { dmSize = (short)Marshal.SizeOf<DEVMODE>() };
-                    if (!EnumDisplaySettings(null, i, ref m)) break;
+                    var m = Native.NewMode();
+                    if (!Native.EnumDisplaySettings(null, i, ref m)) break;
                     if (m.dmPelsWidth == cur.dmPelsWidth && m.dmPelsHeight == cur.dmPelsHeight && m.dmDisplayFrequency > h.ScreenMaxHz && m.dmDisplayFrequency < 1000)
                         h.ScreenMaxHz = m.dmDisplayFrequency;
                 }

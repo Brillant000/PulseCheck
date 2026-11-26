@@ -4,7 +4,7 @@ PulseCheck reads information about the computer it runs on. We take that serious
 
 ## What the app does and does not do
 
-- **Read-only.** It does not install software, change settings or write files, except a report you choose to save.
+- **Scanning is read-only.** A scan never changes anything. Changes happen only when you press **Fix** and confirm a dialog that lists exactly what will change. Every change is logged locally (`%LOCALAPPDATA%\PulseCheck\changes.log`) and most can be undone. PulseCheck never installs software and never changes your antivirus, firewall, drivers or BIOS.
 - **Local.** There is no account, telemetry or upload. The only network traffic is the connection test, listed in the [privacy policy](https://brillant000.github.io/PulseCheck/privacy.html).
 
 ## Verifying a release
