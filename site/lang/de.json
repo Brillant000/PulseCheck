@@ -1,5 +1,8 @@
 {
   "skip": "Zum Inhalt springen",
+  "pv.s2c": "Stößt PulseCheck auf einen unerwarteten Fehler, speichert es technische Details in einer Protokolldatei im PulseCheck-Ordner Ihrer lokalen Anwendungsdaten. Es wird nichts gesendet. Wenn Sie ein Problem melden, prüfen Sie die Datei vor dem Teilen, da sie Dateipfade enthalten kann.",
+  "q8": "Windows oder mein Browser blockiert den Download. Was kann ich tun?",
+  "a8": "Öffnen Sie in Edge oder Chrome die Download-Liste, klicken Sie auf die drei Punkte neben der Datei, wählen Sie Behalten, dann Mehr anzeigen und Trotzdem behalten. Meldet Windows beim Start, es habe Ihren PC geschützt, klicken Sie auf Weitere Informationen und dann auf Trotzdem ausführen. Sie können auch mit der rechten Maustaste auf die Datei klicken, Eigenschaften wählen und Zulassen ankreuzen. Ist die Intelligente App-Steuerung von Windows 11 aktiv, blockiert sie jede nicht signierte App und lässt sich nicht umgehen. Ein Signaturzertifikat wurde beantragt, um diese Warnungen zu beseitigen; die Datei können Sie mit dem Hash auf der Release-Seite prüfen.",
   "sol3.d": "Ihre Grafikkarte (A) und Ihr 1440p-Bildschirm mit 144 Hz (B) verlangen eine Karte der Klasse 7. Jeder Vorschlag zeigt seine Gründe, eine Preisspanne und was Sie zuerst prüfen sollten, etwa das Netzteil.",
   "sol.lead": "Sagen Sie PulseCheck, wofür Sie den PC nutzen. Es vergleicht Ihre Hardware mit Ihrem Bildschirm und Ihrem Einsatz und erklärt, was sich zu ändern lohnt, nach Nutzen geordnet.",
   "sol2.t": "Einstellungen für Ihre Hardware",
@@ -14,7 +17,7 @@
   "a7": "Ja. Nach einer Prüfung vergleicht der Reiter Lösungen Grafikkarte, Prozessor, Speicher, Laufwerke und Bildschirm mit Ihrem Einsatz (Spiele, Video und 3D, Arbeit, Entwicklung) und erklärt, was sich zu verbessern lohnt und warum. Die Leistungsklassen sind Schätzungen, und es gibt weder Werbung noch Affiliate-Links: Vergleichen Sie vor dem Kauf aktuelle Tests und Preise.",
   "shot.h2": "Ein klarer Bericht, in Ihrer Sprache", "shot.alt": "PulseCheck-Fenster mit Gesundheitswert und den Punkten, die Aufmerksamkeit brauchen",
   "meta.title": "PulseCheck – Kostenloser Gesundheits-Check für neue PCs",
-  "meta.desc": "Prüfen Sie einen neuen Windows-PC in einer Minute: echte Spezifikationen, Akkuverschleiß, Speichergeschwindigkeit, vorinstallierte Software, Laufwerkszustand, Sicherheit und Internetverbindung. Kostenlos, Open Source und 100 % lokal.",
+  "meta.desc": "Kostenloser Windows-Check für neue PCs: echte Spezifikationen, Akku, Speicher, vorinstallierte Software, Laufwerke, Sicherheit, Netzwerk. Open Source, lokal.",
   "nav.features": "Was geprüft wird", "nav.newpc": "Neuer PC", "nav.trust": "Vertrauen", "nav.download": "Herunterladen",
 
   "hero.eyebrow": "Kostenlos · Open Source · Windows 10 und 11",
@@ -101,7 +104,7 @@
   "ft.legal": "MIT-Lizenz. Nicht mit Microsoft verbunden. Bereitgestellt „wie besehen“, ohne Gewährleistung.",
 
   "pv.title": "Datenschutzerklärung",
-  "pv.updated": "Zuletzt aktualisiert: 26. November 2026",
+  "pv.updated": "Zuletzt aktualisiert: 27. November 2026",
   "pv.s1.h": "Kurz gesagt",
   "pv.s1.p": "PulseCheck läuft auf Ihrem PC. Es erhebt, speichert oder sendet keine personenbezogenen Daten, weder an uns noch an Dritte. Es gibt keine Konten, keine Analyse und keine Werbung.",
   "pv.s2.h": "Was die App ausliest",

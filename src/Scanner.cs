@@ -16,7 +16,7 @@ public sealed class Scanner
     const string Specs_ = "cat.specs", NewPc_ = "cat.newpc", Sys_ = "cat.system",
                  Sto_ = "cat.storage", Sec_ = "cat.security", Net_ = "cat.network";
 
-    static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(12) };
+    static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(8) };
     readonly List<CheckResult> R = new();
     bool? gwOk, ipOk, dnsOk;
 
@@ -283,7 +283,7 @@ public sealed class Scanner
         {
             var v = sb?.GetValue("UEFISecureBootEnabled");
             if (v == null) A(Sec_, "n.secureboot", Status.Info, "d.unknown");
-            else if (Convert.ToInt32(v) == 1) A(Sec_, "n.secureboot", Status.Ok, "d.sbon");
+            else if (v is int sbv && sbv == 1) A(Sec_, "n.secureboot", Status.Ok, "d.sbon");
             else A(Sec_, "n.secureboot", Status.Warn, "d.sboff", f: "f.secureboot");
         }
 
@@ -361,14 +361,19 @@ public sealed class Scanner
     }
 
     // ------------------------------------------------------------------ NETWORK
-    static (int loss, long? avg, long? jitter) PingStats(string host, int count)
+    /// <summary>
+    /// Pings a host. When the first three attempts all fail the host is treated as unreachable straight away,
+    /// so a scan on a PC with no connection finishes in seconds instead of waiting out every timeout.
+    /// </summary>
+    internal static (int loss, long? avg, long? jitter) PingStats(string host, int count, int timeoutMs = 2000)
     {
         using var p = new Ping();
         var t = new List<long>(); int lost = 0;
         for (int i = 0; i < count; i++)
         {
-            try { var r = p.Send(host, 2000); if (r.Status == IPStatus.Success) t.Add(r.RoundtripTime); else lost++; }
+            try { var r = p.Send(host, timeoutMs); if (r.Status == IPStatus.Success) t.Add(r.RoundtripTime); else lost++; }
             catch { lost++; }
+            if (t.Count == 0 && lost >= 3) { lost = count; break; }
             Thread.Sleep(100);
         }
         long? avg = t.Count > 0 ? (long)Math.Round(t.Average()) : null;
@@ -455,7 +460,7 @@ public sealed class Scanner
         var sw = Stopwatch.StartNew();
         try
         {
-            Dns.GetHostAddresses("www.microsoft.com"); sw.Stop();
+            var lookup = Dns.GetHostAddressesAsync("www.microsoft.com"); if (!lookup.Wait(5000)) throw new TimeoutException("DNS lookup timed out"); sw.Stop();
             dnsOk = true;
             A(Net_, "n.dns", sw.ElapsedMilliseconds > 300 ? Status.Warn : Status.Ok, "d.dns", new object[] { sw.ElapsedMilliseconds }, sw.ElapsedMilliseconds > 300 ? "f.dnsslow" : null);
         }
@@ -475,7 +480,7 @@ public sealed class Scanner
 
         using (var k = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings"))
         {
-            if (Convert.ToInt32(k?.GetValue("ProxyEnable") ?? 0) == 1) A(Net_, "n.proxy", Status.Warn, "d.proxy", new object[] { k?.GetValue("ProxyServer") ?? "?" }, "f.proxy");
+            if (k?.GetValue("ProxyEnable") is int pe && pe == 1) A(Net_, "n.proxy", Status.Warn, "d.proxy", new object[] { k?.GetValue("ProxyServer") ?? "?" }, "f.proxy");
             else A(Net_, "n.proxy", Status.Ok, "d.noproxy");
         }
         var vpn = all.Where(n => Regex.IsMatch(n.Description, "VPN|TAP|WireGuard|TUN", RegexOptions.IgnoreCase)).Select(n => n.Name).ToList();

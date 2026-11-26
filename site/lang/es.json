@@ -1,5 +1,8 @@
 {
   "skip": "Saltar al contenido",
+  "pv.s2c": "Si PulseCheck encuentra un error inesperado, guarda detalles técnicos en un archivo de registro en la carpeta PulseCheck de tus datos de aplicación locales. No se envía nada. Si informas de un problema, revisa el archivo antes de compartirlo, ya que puede contener rutas de archivos.",
+  "q8": "Windows o mi navegador bloquea la descarga. ¿Qué hago?",
+  "a8": "En Edge o Chrome, abre la lista de descargas, pulsa los tres puntos junto al archivo, elige Conservar y luego Mostrar más y Conservar de todos modos. Al ejecutarlo, si Windows dice que protegió tu PC, pulsa Más información y luego Ejecutar de todas formas. También puedes hacer clic derecho en el archivo, elegir Propiedades y marcar Desbloquear. Si el Control inteligente de aplicaciones de Windows 11 está activado, bloquea toda aplicación sin firmar y no se puede eludir. Se ha solicitado un certificado de firma para eliminar estos avisos, y puedes comprobar el archivo con el hash de la página de la versión.",
   "sol3.d": "Tu tarjeta gráfica (A) y tu pantalla 1440p de 144 Hz (B) piden una tarjeta de clase 7. Cada sugerencia muestra sus motivos, un rango de coste y qué comprobar primero, como la fuente de alimentación.",
   "sol.lead": "Dile a PulseCheck para qué usas el PC. Compara tu hardware con tu pantalla y tu uso, y explica qué cambiar, por orden de valor.",
   "sol2.t": "Ajustes para tu hardware",
@@ -14,7 +17,7 @@
   "a7": "Sí. Tras un análisis, la pestaña Soluciones compara tu tarjeta gráfica, procesador, memoria, unidades y pantalla con tu uso (juegos, vídeo y 3D, trabajo, desarrollo) y explica qué merece la pena mejorar y por qué. Las clases de rendimiento son estimaciones y no hay publicidad ni enlaces de afiliado: compara reseñas y precios actuales antes de comprar.",
   "shot.h2": "Un informe claro, en tu idioma", "shot.alt": "Ventana de PulseCheck con la puntuación de salud y los puntos que requieren atención",
   "meta.title": "PulseCheck – Diagnóstico gratuito para PC nuevos",
-  "meta.desc": "Comprueba un PC con Windows nuevo en un minuto: especificaciones reales, desgaste de la batería, velocidad de la memoria, software preinstalado, estado de los discos, seguridad y conexión a Internet. Gratis, de código abierto y 100 % local.",
+  "meta.desc": "Diagnóstico gratuito de Windows para PC nuevos: especificaciones reales, batería, memoria, software preinstalado, discos, seguridad y red. Código abierto, local.",
   "nav.features": "Qué comprueba", "nav.newpc": "PC nuevo", "nav.trust": "Confianza", "nav.download": "Descargar",
 
   "hero.eyebrow": "Gratis · Código abierto · Windows 10 y 11",
@@ -101,7 +104,7 @@
   "ft.legal": "Licencia MIT. Sin relación con Microsoft. Se ofrece «tal cual», sin garantía.",
 
   "pv.title": "Política de privacidad",
-  "pv.updated": "Última actualización: 26 de noviembre de 2026",
+  "pv.updated": "Última actualización: 27 de noviembre de 2026",
   "pv.s1.h": "En resumen",
   "pv.s1.p": "PulseCheck se ejecuta en tu PC. No recopila, almacena ni envía tus datos personales ni a nosotros ni a nadie. No hay cuentas, ni analítica, ni publicidad.",
   "pv.s2.h": "Qué lee la aplicación",

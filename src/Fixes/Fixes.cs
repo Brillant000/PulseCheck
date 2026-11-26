@@ -180,12 +180,46 @@ public sealed class RefreshFix : Fix
 
 public sealed class CleanTempFix : Fix
 {
-    public string TempDir = Path.GetTempPath();
+    public string TempDir = DefaultTempDir();
     public TimeSpan MinAge = TimeSpan.FromDays(1);
+    /// <summary>The preview stops counting after this many files, so the dialog never freezes on a huge folder.</summary>
+    public int PreviewFileLimit = 20000;
     public override string Id => "cleantemp";
     public override Msg Title => new("fx.t.cleantemp");
     public override bool Reversible => false;
+    public override bool Ready => IsSafeTempDir(TempDir);
 
+    /// <summary>
+    /// Deleting files is the one thing PulseCheck does that cannot be undone, so the folder must be unmistakably a
+    /// temp folder: not a drive root, and named Temp or Tmp. A misconfigured TEMP pointing at Documents, the user
+    /// profile or a system folder is refused.
+    /// </summary>
+    public static bool IsSafeTempDir(string dir)
+    {
+        if (string.IsNullOrWhiteSpace(dir)) return false;
+        string full;
+        try { full = Path.GetFullPath(dir).TrimEnd('\\', '/'); } catch { return false; }
+        if (full.Length < 4) return false;                                           // a drive root such as C:
+        var name = Path.GetFileName(full);
+        return name.Equals("Temp", StringComparison.OrdinalIgnoreCase) || name.Equals("Tmp", StringComparison.OrdinalIgnoreCase);
+    }
+
+    static string DefaultTempDir()
+    {
+        var t = Path.GetTempPath();
+        if (IsSafeTempDir(t)) return t;
+        // e.g. a per-session sub-folder such as ...\Temp\1: fall back to the standard user temp folder
+        var std = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp");
+        return Directory.Exists(std) ? std : t;
+    }
+
+    static bool IsReparsePoint(string path)
+    {
+        try { return (File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0; }
+        catch { return true; }   // when in doubt, do not touch it
+    }
+
+    /// <summary>Old files only. Never enters a folder junction or symbolic link, so nothing outside the temp folder is reached.</summary>
     IEnumerable<FileInfo> Old()
     {
         var cutoff = DateTime.Now - MinAge;
@@ -195,9 +229,10 @@ public sealed class CleanTempFix : Fix
             var dir = stack.Pop();
             string[] files = Array.Empty<string>(), subs = Array.Empty<string>();
             try { files = Directory.GetFiles(dir); subs = Directory.GetDirectories(dir); } catch { }
-            foreach (var s in subs) stack.Push(s);
+            foreach (var s in subs) if (!IsReparsePoint(s)) stack.Push(s);
             foreach (var f in files)
             {
+                if (IsReparsePoint(f)) continue;
                 FileInfo? fi = null;
                 try { fi = new FileInfo(f); } catch { }
                 if (fi != null && fi.LastWriteTime < cutoff && fi.LastAccessTime < cutoff) yield return fi;
@@ -207,29 +242,40 @@ public sealed class CleanTempFix : Fix
 
     public override IReadOnlyList<Msg> Plan(HardwareInfo? hw)
     {
-        long bytes = 0; int n = 0;
-        foreach (var f in Old()) { try { bytes += f.Length; n++; } catch { } }
-        return new[] { new Msg("fx.p.cleantemp", Math.Round(bytes / 1048576d), n), new Msg("fx.p.cleantemp2") };
+        if (!IsSafeTempDir(TempDir)) return new[] { new Msg("fx.e.tempunsafe", TempDir) };
+        long bytes = 0; int n = 0; bool more = false;
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        foreach (var f in Old())
+        {
+            try { bytes += f.Length; } catch { }
+            n++;
+            if (n >= PreviewFileLimit || clock.ElapsedMilliseconds > 3000) { more = true; break; }
+        }
+        return new[] { new Msg(more ? "fx.p.cleantemp_more" : "fx.p.cleantemp", Math.Round(bytes / 1048576d), n), new Msg("fx.p.cleantemp2") };
     }
 
     public override FixOutcome Apply(HardwareInfo? hw)
     {
+        if (!IsSafeTempDir(TempDir)) return new FixOutcome(false, new Msg("fx.e.tempunsafe", TempDir));
         long freed = 0; int n = 0;
         foreach (var f in Old().ToList())
         {
             try { long len = f.Length; f.Delete(); freed += len; n++; } catch { /* in use: skip */ }
         }
-        // remove folders that are now empty (never the temp folder itself)
-        try
-        {
-            foreach (var d in Directory.GetDirectories(TempDir, "*", SearchOption.AllDirectories).OrderByDescending(x => x.Length))
-                try { if (!Directory.EnumerateFileSystemEntries(d).Any()) Directory.Delete(d); } catch { }
-        }
-        catch { }
+        RemoveEmptyFolders(TempDir, true);
         return new FixOutcome(true, null, null, new Msg("fx.n.freed", Math.Round(freed / 1048576d), n));
     }
-}
 
+    /// <summary>Removes folders left empty, bottom-up, never the temp folder itself and never through a junction.</summary>
+    static void RemoveEmptyFolders(string dir, bool isRoot)
+    {
+        string[] subs = Array.Empty<string>();
+        try { subs = Directory.GetDirectories(dir); } catch { }
+        foreach (var s in subs) if (!IsReparsePoint(s)) RemoveEmptyFolders(s, false);
+        if (isRoot) return;
+        try { if (!Directory.EnumerateFileSystemEntries(dir).Any()) Directory.Delete(dir); } catch { }
+    }
+}
 public sealed class RestartFix : Fix
 {
     public override string Id => "restart";

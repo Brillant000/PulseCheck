@@ -155,5 +155,7 @@
   "fx.n.freed": "Freed {0} MB ({1} files deleted).",
   "fx.n.restart": "Restart scheduled in 60 seconds. Press Undo to cancel it.",
   "fx.n.startup": "{0} program(s) switched off at startup.",
-  "fx.t.bloat": "Remove preinstalled Store apps", "fx.p.bloat": "Remove the Microsoft Store apps you tick, for your account only.", "fx.p.bloat2": "You can reinstall any of them later from the Microsoft Store.", "fx.n.bloat": "{0} app(s) removed.", "fx.nobloat": "No removable Store app found. Use Settings > Apps for other software."
+  "fx.t.bloat": "Remove preinstalled Store apps", "fx.p.bloat": "Remove the Microsoft Store apps you tick, for your account only.", "fx.p.bloat2": "You can reinstall any of them later from the Microsoft Store.", "fx.n.bloat": "{0} app(s) removed.", "fx.nobloat": "No removable Store app found. Use Settings > Apps for other software.",
+  "fx.p.cleantemp_more": "Delete at least {0} MB of temporary files ({1}+ files) older than one day from your temporary folder.", "fx.e.tempunsafe": "Your temporary folder ({0}) does not look like a normal temp folder, so PulseCheck will not delete anything there.",
+  "err.title": "PulseCheck", "err.body": "Something unexpected went wrong, but PulseCheck is still running. Nothing was sent anywhere. Technical details were saved on this PC: {0}\n\nIf it keeps happening, please report it on the project page and check the file before sharing it: it can contain file paths."
 }

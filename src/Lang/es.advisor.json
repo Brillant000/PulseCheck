@@ -155,5 +155,7 @@
   "fx.n.freed": "Liberados {0} MB ({1} archivos eliminados).",
   "fx.n.restart": "Reinicio programado en 60 segundos. Pulsa Deshacer para cancelarlo.",
   "fx.n.startup": "{0} programa(s) desactivado(s) al inicio.",
-  "fx.t.bloat": "Quitar aplicaciones de la Tienda preinstaladas", "fx.p.bloat": "Quitar las aplicaciones de Microsoft Store que marques, solo para tu cuenta.", "fx.p.bloat2": "Podrás reinstalar cualquiera más tarde desde Microsoft Store.", "fx.n.bloat": "{0} aplicación(es) quitada(s).", "fx.nobloat": "No hay aplicaciones de la Tienda que quitar automáticamente. Usa Configuración > Aplicaciones para el resto del software."
+  "fx.t.bloat": "Quitar aplicaciones de la Tienda preinstaladas", "fx.p.bloat": "Quitar las aplicaciones de Microsoft Store que marques, solo para tu cuenta.", "fx.p.bloat2": "Podrás reinstalar cualquiera más tarde desde Microsoft Store.", "fx.n.bloat": "{0} aplicación(es) quitada(s).", "fx.nobloat": "No hay aplicaciones de la Tienda que quitar automáticamente. Usa Configuración > Aplicaciones para el resto del software.",
+  "fx.p.cleantemp_more": "Eliminar al menos {0} MB de archivos temporales ({1}+ archivos) de más de un día de tu carpeta temporal.", "fx.e.tempunsafe": "Tu carpeta temporal ({0}) no parece una carpeta temporal normal, así que PulseCheck no eliminará nada allí.",
+  "err.title": "PulseCheck", "err.body": "Ocurrió un error inesperado, pero PulseCheck sigue funcionando. No se envió nada. Los detalles técnicos se guardaron en este PC: {0}\n\nSi se repite, infórmalo en la página del proyecto y revisa el archivo antes de compartirlo: puede contener rutas de archivos."
 }

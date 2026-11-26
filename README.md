@@ -70,6 +70,16 @@ For the most complete results, use **Run as administrator** (the TPM check needs
 100 % local. No account, no telemetry, nothing uploaded. Scanning is read-only. The only network traffic is the connection test: ping to your router, `1.1.1.1` and `8.8.8.8`; a DNS lookup and an HTTPS connection to `www.microsoft.com`; one small request to `www.msftconnecttest.com`; and, if you tick it, a 10 MB download from `speed.cloudflare.com`.
 Details: [privacy policy](https://brillant000.github.io/PulseCheck/privacy.html). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
+If PulseCheck meets an unexpected error, it shows a message and saves technical details in `%LOCALAPPDATA%\PulseCheck\error.log`. Nothing is sent: check the file before sharing it, as it can contain file paths.
+
+## Known limitations
+
+- **Not code-signed yet**, so Windows SmartScreen or Smart App Control may warn or block it. Check the SHA-256 hash and the build attestation (see above). A signing certificate has been requested.
+- **Tested on few machines.** Behaviour on other laptops, desktops and Windows builds may differ. Please [report problems](https://github.com/Brillant000/PulseCheck/issues).
+- **Estimates, not measurements:** graphics and processor classes, battery wear and "preinstalled extras" are indicators. Check the power supply, case and motherboard yourself before buying hardware.
+- **Not covered:** administrator-only fixes (firewall, antivirus, services), driver updates, BIOS settings such as XMP/EXPO, and desktops with several displays (only the primary display is used).
+- Windows 10 and 11, 64-bit only.
+
 ## Build from source
 
 Requires Windows and the [.NET 8 SDK](https://dotnet.microsoft.com/download).

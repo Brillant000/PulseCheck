@@ -155,5 +155,7 @@
   "fx.n.freed": "{0} Mo libérés ({1} fichiers supprimés).",
   "fx.n.restart": "Redémarrage prévu dans 60 secondes. Cliquez sur Annuler pour l'arrêter.",
   "fx.n.startup": "{0} programme(s) désactivé(s) au démarrage.",
-  "fx.t.bloat": "Supprimer les applications Store préinstallées", "fx.p.bloat": "Supprimer les applications du Microsoft Store que vous cochez, pour votre compte uniquement.", "fx.p.bloat2": "Vous pourrez toujours les réinstaller depuis le Microsoft Store.", "fx.n.bloat": "{0} application(s) supprimée(s).", "fx.nobloat": "Aucune application Store à supprimer automatiquement. Utilisez Paramètres > Applications pour les autres logiciels."
+  "fx.t.bloat": "Supprimer les applications Store préinstallées", "fx.p.bloat": "Supprimer les applications du Microsoft Store que vous cochez, pour votre compte uniquement.", "fx.p.bloat2": "Vous pourrez toujours les réinstaller depuis le Microsoft Store.", "fx.n.bloat": "{0} application(s) supprimée(s).", "fx.nobloat": "Aucune application Store à supprimer automatiquement. Utilisez Paramètres > Applications pour les autres logiciels.",
+  "fx.p.cleantemp_more": "Supprimer au moins {0} Mo de fichiers temporaires ({1}+ fichiers) datant de plus d'un jour dans votre dossier temporaire.", "fx.e.tempunsafe": "Votre dossier temporaire ({0}) ne ressemble pas à un dossier temporaire normal : PulseCheck n'y supprimera rien.",
+  "err.title": "PulseCheck", "err.body": "Une erreur inattendue s'est produite, mais PulseCheck continue de fonctionner. Rien n'a été envoyé. Les détails techniques sont enregistrés sur ce PC : {0}\n\nSi cela se répète, signalez-le sur la page du projet et relisez le fichier avant de le partager : il peut contenir des chemins de fichiers."
 }

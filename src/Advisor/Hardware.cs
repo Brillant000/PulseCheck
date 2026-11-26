@@ -226,7 +226,7 @@ public static class HardwareProbe
             var g = Regex.Match(o, @"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.IgnoreCase);
             h.PowerPlan = g.Success ? g.Value.ToLowerInvariant() : "";
             using var dvr = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\GameDVR");
-            h.GameDvrOn = Convert.ToInt32(dvr?.GetValue("AppCaptureEnabled") ?? 0) == 1;
+            h.GameDvrOn = dvr?.GetValue("AppCaptureEnabled") is int dvrOn && dvrOn == 1;
             using var gb = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\GameBar");
             h.GameModeOff = gb?.GetValue("AutoGameModeEnabled") is int i && i == 0;
             h.StartupCount = Scanner.StartupCount();

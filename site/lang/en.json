@@ -1,5 +1,8 @@
 {
   "skip": "Skip to content",
+  "pv.s2c": "If PulseCheck meets an unexpected error, it saves technical details in a log file in the PulseCheck folder of your local app data. Nothing is sent. If you report a problem, check the file before sharing it, as it can contain file paths.",
+  "q8": "Windows or my browser blocks the download. What can I do?",
+  "a8": "In Edge or Chrome, open the downloads list, click the three dots next to the file, choose Keep, then Show more and Keep anyway. When you run it, if Windows says it protected your PC, click More info then Run anyway. You can also right-click the file, choose Properties and tick Unblock. If Windows 11 Smart App Control is on, it blocks every unsigned app and cannot be bypassed. A code-signing certificate has been requested to remove these warnings, and you can check the file with the hash on the release page.",
   "sol3.d": "Your graphics card (A) and your 1440p 144 Hz screen (B) call for a class 7 card. Each suggestion shows its reasons, a cost range and what to check first, such as the power supply.",
   "sol.lead": "Tell PulseCheck what you use the PC for. It compares your hardware with your screen and your usage, then explains what to change, in order of value.",
   "sol2.t": "Settings for your hardware",
@@ -14,7 +17,7 @@
   "a7": "Yes. After a scan, the Solutions tab compares your graphics card, processor, memory, drives and screen with your usage (gaming, video and 3D, work, development) and explains what is worth upgrading and why. Performance classes are estimates, and there are no ads or affiliate links, so compare current reviews and prices before buying.",
   "shot.h2": "See it in action", "shot.alt": "PulseCheck window showing the health score and the items that need attention",
   "meta.title": "PulseCheck – Free PC health check for new computers",
-  "meta.desc": "Check a new Windows PC in about a minute: real specs, battery wear, memory speed, preinstalled extras, drive health, security and your internet connection. Free, open source, 100 % local.",
+  "meta.desc": "Free, open-source Windows health check for new PCs: real specs, battery wear, RAM speed, preinstalled junk, drives, security, network. 100 % local.",
   "nav.features": "What it checks", "nav.newpc": "New PC", "nav.trust": "Trust", "nav.download": "Download",
 
   "hero.eyebrow": "Free · Open source · Windows 10 and 11",
@@ -101,7 +104,7 @@
   "ft.legal": "MIT license. Not affiliated with Microsoft. Provided “as is”, without warranty.",
 
   "pv.title": "Privacy policy",
-  "pv.updated": "Last updated: 26 November 2026",
+  "pv.updated": "Last updated: 27 November 2026",
   "pv.s1.h": "The short version",
   "pv.s1.p": "PulseCheck runs on your PC. It does not collect, store or send your personal data to us or to anyone else. There are no accounts, no analytics and no advertising.",
   "pv.s2.h": "What the app reads",

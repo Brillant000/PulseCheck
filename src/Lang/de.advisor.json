@@ -155,5 +155,7 @@
   "fx.n.freed": "{0} MB freigegeben ({1} Dateien gelöscht).",
   "fx.n.restart": "Neustart in 60 Sekunden geplant. Mit Rückgängig brechen Sie ihn ab.",
   "fx.n.startup": "{0} Programm(e) im Autostart ausgeschaltet.",
-  "fx.t.bloat": "Vorinstallierte Store-Apps entfernen", "fx.p.bloat": "Die angekreuzten Microsoft-Store-Apps nur für Ihr Konto entfernen.", "fx.p.bloat2": "Sie können jede später im Microsoft Store neu installieren.", "fx.n.bloat": "{0} App(s) entfernt.", "fx.nobloat": "Keine automatisch entfernbare Store-App gefunden. Nutzen Sie Einstellungen > Apps für andere Software."
+  "fx.t.bloat": "Vorinstallierte Store-Apps entfernen", "fx.p.bloat": "Die angekreuzten Microsoft-Store-Apps nur für Ihr Konto entfernen.", "fx.p.bloat2": "Sie können jede später im Microsoft Store neu installieren.", "fx.n.bloat": "{0} App(s) entfernt.", "fx.nobloat": "Keine automatisch entfernbare Store-App gefunden. Nutzen Sie Einstellungen > Apps für andere Software.",
+  "fx.p.cleantemp_more": "Mindestens {0} MB temporäre Dateien ({1}+ Dateien) löschen, die älter als einen Tag sind, aus Ihrem Temp-Ordner.", "fx.e.tempunsafe": "Ihr Temp-Ordner ({0}) sieht nicht wie ein normaler Temp-Ordner aus, deshalb löscht PulseCheck dort nichts.",
+  "err.title": "PulseCheck", "err.body": "Ein unerwarteter Fehler ist aufgetreten, PulseCheck läuft aber weiter. Es wurde nichts gesendet. Technische Details wurden auf diesem PC gespeichert: {0}\n\nWenn es sich wiederholt, melden Sie es auf der Projektseite und prüfen Sie die Datei vor dem Teilen: Sie kann Dateipfade enthalten."
 }

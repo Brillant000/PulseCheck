@@ -72,7 +72,7 @@ public sealed class FixTests : IDisposable
     [Fact]
     public void Clean_temp_deletes_only_old_files_and_says_it_cannot_be_undone()
     {
-        var dir = Path.Combine(Path.GetTempPath(), "pulsecheck-test-" + Guid.NewGuid().ToString("N")); dirs.Add(dir);
+        var dir = NewTempRoot(dirs);
         Directory.CreateDirectory(Path.Combine(dir, "sub"));
         var old = Path.Combine(dir, "sub", "old.tmp"); var fresh = Path.Combine(dir, "fresh.tmp");
         File.WriteAllText(old, "x"); File.WriteAllText(fresh, "y");
@@ -86,6 +86,70 @@ public sealed class FixTests : IDisposable
         Assert.False(File.Exists(old));
         Assert.True(File.Exists(fresh));           // recent files are never touched
         Assert.True(Directory.Exists(dir));        // the folder itself stays
+    }
+
+    static string NewTempRoot(List<string> cleanup)
+    {
+        var parent = Path.Combine(Path.GetTempPath(), "pulsecheck-test-" + Guid.NewGuid().ToString("N")); cleanup.Add(parent);
+        var temp = Path.Combine(parent, "Temp"); Directory.CreateDirectory(temp);
+        return temp;
+    }
+
+    static void MakeOld(string file) { File.WriteAllText(file, "x"); File.SetLastWriteTime(file, DateTime.Now.AddDays(-9)); File.SetLastAccessTime(file, DateTime.Now.AddDays(-9)); }
+
+    [Theory]
+    [InlineData(@"C:\")]
+    [InlineData(@"C:\Users")]
+    [InlineData(@"C:\Windows")]
+    [InlineData(@"C:\Program Files")]
+    [InlineData("")]
+    public void Clean_temp_refuses_any_folder_that_is_not_a_temp_folder(string dir)
+    {
+        var fix = new CleanTempFix { TempDir = dir };
+        Assert.False(fix.Ready);                                   // the Apply button would refuse
+        var o = fix.Apply(null);
+        Assert.False(o.Ok);                                        // and so does Apply itself
+    }
+
+    [Fact]
+    public void Clean_temp_refuses_a_misconfigured_TEMP_that_points_at_the_user_profile_or_documents()
+    {
+        foreach (var dir in new[] { Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), Environment.GetFolderPath(Environment.SpecialFolder.Desktop) })
+        {
+            var fix = new CleanTempFix { TempDir = dir };
+            Assert.False(fix.Ready, dir);
+            Assert.False(fix.Apply(null).Ok, dir);
+        }
+    }
+
+    [Fact]
+    public void Clean_temp_never_follows_a_folder_junction_out_of_the_temp_folder()
+    {
+        var temp = NewTempRoot(dirs);
+        var outside = Path.Combine(Path.GetDirectoryName(temp)!, "ImportantDocuments"); Directory.CreateDirectory(outside);
+        var precious = Path.Combine(outside, "thesis.docx"); MakeOld(precious);
+        var junction = Path.Combine(temp, "link");
+        var p = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd.exe", $"/c mklink /J \"{junction}\" \"{outside}\"") { CreateNoWindow = true, UseShellExecute = false, RedirectStandardOutput = true });
+        p!.WaitForExit();
+        Assert.True(Directory.Exists(junction));
+
+        var o = new CleanTempFix { TempDir = temp }.Apply(null);
+        Assert.True(o.Ok);
+        Assert.True(File.Exists(precious));                        // data reached through the junction is untouched
+        Directory.Delete(junction);                                // removes the link only
+    }
+
+    [Fact]
+    public void Clean_temp_preview_is_time_boxed_so_the_dialog_never_freezes_on_a_huge_folder()
+    {
+        var temp = NewTempRoot(dirs);
+        for (int i = 0; i < 400; i++) MakeOld(Path.Combine(temp, $"f{i}.tmp"));
+        var fix = new CleanTempFix { TempDir = temp, PreviewFileLimit = 100 };
+        var plan = fix.Plan(null);
+        Assert.Equal("fx.p.cleantemp_more", plan[0].Key);          // says "at least", not a wrong exact number
+        var o = fix.Apply(null);                                   // but the real run deletes everything
+        Assert.True(o.Ok);
+        Assert.Empty(Directory.GetFiles(temp));
     }
 
     [Fact]
