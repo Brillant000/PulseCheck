@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+{{inc:head}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"{{version}}","license":"https://opensource.org/licenses/MIT","downloadUrl":"{{download}}","description":"{{description}}","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+{{inc:header}}
+<main id="main">
+
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">{{hero.eyebrow}}</p>
+      <h1>{{hero.h1}}</h1>
+      <p class="lead">{{hero.sub}}</p>
+      <div class="cta">
+        <a class="btn" href="{{download}}">{{hero.cta}}</a>
+        <a class="btn ghost" href="{{repo}}">{{hero.src}}</a>
+      </div>
+      <p class="meta">{{hero.meta}}</p>
+    </div>
+
+    <div class="sheet" role="img" aria-label="{{report.label}}">
+      <div class="sheet-h"><span>{{report.label}}</span><span>PulseCheck {{version}}</span></div>
+      <div class="score">
+        <div class="ring" style="--p:82"><b>82</b></div>
+        <p><strong>{{report.score}}</strong>{{report.scoresub}}</p>
+      </div>
+      <ul class="rows">
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">{{rp.1n}}</span><span class="d">{{rp.1d}}</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">{{rp.2n}}</span><span class="d">{{rp.2d}}</span></span></li>
+        <li><span class="g warn" aria-hidden="true">!</span><span><span class="n">{{rp.3n}}</span><span class="d">{{rp.3d}}</span></span></li>
+        <li><span class="g warn" aria-hidden="true">!</span><span><span class="n">{{rp.4n}}</span><span class="d">{{rp.4d}}</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">{{rp.5n}}</span><span class="d">{{rp.5d}}</span></span></li>
+        <li><span class="g" aria-hidden="true">✓</span><span><span class="n">{{rp.6n}}</span><span class="d">{{rp.6d}}</span></span></li>
+      </ul>
+      <div class="sheet-f">{{report.footer}}</div>
+    </div>
+  </div>
+</section>
+
+<section class="shots" aria-labelledby="shot-h">
+  <div class="wrap">
+    <h2 id="shot-h">{{shot.h2}}</h2>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="{{root}}shots/app-{{lang}}-dark.png">
+      <img src="{{root}}shots/app-{{lang}}-light.png" alt="{{shot.alt}}" width="860" height="732" loading="lazy">
+    </picture>
+  </div>
+</section>
+
+<section id="features" class="alt">
+  <div class="wrap">
+    <h2>{{feat.h2}}</h2>
+    <p class="sub">{{feat.lead}}</p>
+    <dl class="sheetlist">
+      <div class="r"><dt>{{c1.t}}</dt><dd>{{c1.d}}</dd></div>
+      <div class="r"><dt>{{c2.t}}</dt><dd>{{c2.d}}</dd></div>
+      <div class="r"><dt>{{c3.t}}</dt><dd>{{c3.d}}</dd></div>
+      <div class="r"><dt>{{c4.t}}</dt><dd>{{c4.d}}</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="new-pc">
+  <div class="wrap">
+    <h2>{{np.h2}}</h2>
+    <p class="sub">{{np.lead}}</p>
+    <div class="cards">
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>{{np1.t}}</h3><p>{{np1.d}}</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>{{np2.t}}</h3><p>{{np2.d}}</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>{{np3.t}}</h3><p>{{np3.d}}</p></div>
+      <div class="card"><span class="g warn" aria-hidden="true">!</span><h3>{{np4.t}}</h3><p>{{np4.d}}</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="network" class="alt">
+  <div class="wrap">
+    <h2>{{net.h2}}</h2>
+    <p class="sub">{{net.lead}}</p>
+    <ol class="chain">
+      <li><span class="node">{{net.pc}}</span><small>{{net.pc.c}}</small></li>
+      <li><span class="node">{{net.router}}</span><small>{{net.router.c}}</small></li>
+      <li><span class="node">{{net.isp}}</span><small>{{net.isp.c}}</small></li>
+      <li><span class="node">{{net.dns}}</span><small>{{net.dns.c}}</small></li>
+    </ol>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>{{net.th1}}</th><th>{{net.th2}}</th><th>{{net.th3}}</th></tr></thead>
+        <tbody>
+          <tr><td>{{net.r1a}}</td><td>{{net.r1b}}</td><td>{{net.r1c}}</td></tr>
+          <tr><td>{{net.r2a}}</td><td>{{net.r2b}}</td><td>{{net.r2c}}</td></tr>
+          <tr><td>{{net.r3a}}</td><td>{{net.r3b}}</td><td>{{net.r3c}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="wrap">
+    <h2>{{tr.h2}}</h2>
+    <p class="sub">{{tr.lead}}</p>
+    <div class="trust">
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>{{tr1.t}}</h3><p>{{tr1.d}}</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>{{tr2.t}}</h3><p>{{tr2.d}}</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>{{tr3.t}}</h3><p>{{tr3.d}}</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>{{tr4.t}}</h3><p>{{tr4.d}}</p></span></div>
+      <div><span class="g" aria-hidden="true">✓</span><span><h3>{{tr5.t}}</h3><p>{{tr5.d}}</p></span></div>
+    </div>
+    <p class="more"><a href="privacy.html">{{tr.more}}</a></p>
+  </div>
+</section>
+
+<section id="download" style="padding-top:0">
+  <div class="wrap">
+    <div class="dl">
+      <h2>{{dl.h2}}</h2>
+      <p class="sub">{{dl.sub}}</p>
+      <a class="btn" href="{{download}}">{{dl.btn}}</a>
+      <p class="req">{{dl.req}}</p>
+
+      <div class="dgrid">
+        <div>
+          <h3>{{dl.how}}</h3>
+          <ol>
+            <li>{{dl.s1}}</li>
+            <li>{{dl.s2}}</li>
+            <li>{{dl.s3}}</li>
+          </ol>
+          <h3 style="margin-top:26px">{{dl.why.t}}</h3>
+          <p class="s">{{dl.why.d}}</p>
+        </div>
+        <div>
+          <h3>{{vf.h2}}</h3>
+          <p class="s">{{vf.d}}</p>
+          <pre id="verify"><span class="c">{{vf.c1}}</span>
+Get-FileHash .\PulseCheck.exe -Algorithm SHA256
+
+<span class="c">{{vf.c2}}</span>
+gh attestation verify .\PulseCheck.exe --repo {{ghrepo}}</pre>
+          <button class="copy" type="button" id="copybtn" data-done="{{vf.copied}}">{{vf.copy}}</button>
+          <p class="s" style="margin-top:14px"><a href="{{repo}}/releases" style="color:#fff">{{dl.all}}</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap faq">
+    <h2>{{faq.h2}}</h2>
+    <details><summary>{{q1}}</summary><p>{{a1}}</p></details>
+    <details><summary>{{q2}}</summary><p>{{a2}}</p></details>
+    <details><summary>{{q3}}</summary><p>{{a3}}</p></details>
+    <details><summary>{{q4}}</summary><p>{{a4}}</p></details>
+    <details><summary>{{q5}}</summary><p>{{a5}}</p></details>
+    <details><summary>{{q6}}</summary><p>{{a6}}</p></details>
+  </div>
+</section>
+
+</main>
+{{inc:footer}}
+<script>
+(function(){
+  var b=document.getElementById('copybtn'),p=document.getElementById('verify');
+  if(!b||!p) return;
+  b.addEventListener('click',function(){
+    var t=p.innerText;
+    function done(){var o=b.textContent;b.textContent=b.dataset.done;setTimeout(function(){b.textContent=o},1800)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+  });
+})();
+</script>
+</body>
+</html>
