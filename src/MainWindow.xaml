@@ -1,0 +1,88 @@
+<Window x:Class="PulseCheck.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PulseCheck" Width="1000" Height="740" MinWidth="780" MinHeight="520"
+        Background="#F4F6F8" FontFamily="Segoe UI" WindowStartupLocation="CenterScreen"
+        Icon="Assets/pulsecheck.ico">
+    <Window.Resources>
+        <Style x:Key="Btn" TargetType="Button">
+            <Setter Property="Padding" Value="16,9"/>
+            <Setter Property="Margin" Value="0,0,8,8"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#222"/>
+            <Setter Property="BorderBrush" Value="#D5DBE1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="bd" Property="Opacity" Value="0.85"/></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter TargetName="bd" Property="Opacity" Value="0.45"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Primary" TargetType="Button" BasedOn="{StaticResource Btn}">
+            <Setter Property="Background" Value="#2F6BFF"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#2F6BFF"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24,20,24,14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="Assets/pulsecheck.ico" Width="56" Height="56"/>
+            <StackPanel Grid.Column="1" Margin="14,0" VerticalAlignment="Center">
+                <TextBlock Text="PulseCheck" FontSize="26" FontWeight="Bold"/>
+                <TextBlock x:Name="Tagline" Foreground="#667085" FontSize="13" TextWrapping="Wrap"/>
+            </StackPanel>
+            <Border Grid.Column="2" Background="White" CornerRadius="12" Padding="26,8">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock x:Name="ScoreText" Text="–" FontSize="34" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#98A2B3"/>
+                    <TextBlock x:Name="ScoreLabel" FontSize="12" Foreground="#667085" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <WrapPanel Grid.Row="1" Margin="0,18,0,4" VerticalAlignment="Center">
+            <Button x:Name="ScanBtn" Style="{StaticResource Primary}" Click="Scan_Click"/>
+            <CheckBox x:Name="SpeedBox" IsChecked="True" VerticalAlignment="Center" Margin="4,0,18,8"/>
+            <Button x:Name="SaveBtn" Style="{StaticResource Btn}" Click="Save_Click" IsEnabled="False"/>
+            <Button x:Name="ScreenBtn" Style="{StaticResource Btn}" Click="ScreenTest_Click"/>
+            <Button x:Name="AdminBtn" Style="{StaticResource Btn}" Click="Admin_Click"/>
+            <ComboBox x:Name="LangBox" Width="130" Height="36" VerticalContentAlignment="Center" Margin="0,0,0,8"/>
+        </WrapPanel>
+
+        <StackPanel Grid.Row="2" x:Name="ProgressPanel" Visibility="Collapsed" Margin="0,2,0,10">
+            <ProgressBar x:Name="Progress" Height="6" Foreground="#2F6BFF" Background="#E4E7EC" BorderThickness="0"/>
+            <TextBlock x:Name="ProgressText" Margin="0,6,0,0" Foreground="#667085" FontSize="12.5"/>
+        </StackPanel>
+
+        <ScrollViewer x:Name="Scroller" Grid.Row="3" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ResultsPanel" Margin="0,0,6,0"/>
+        </ScrollViewer>
+
+        <TextBlock Grid.Row="4" x:Name="PrivacyText" Foreground="#98A2B3" FontSize="11.5" Margin="0,8,0,0" TextWrapping="Wrap"/>
+    </Grid>
+</Window>
