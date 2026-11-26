@@ -25,9 +25,18 @@ Checks live in `src/Scanner.cs`. Add a method, call it from `RunAsync`, and use 
 (`n.*` name, `d.*` detail, `f.*` fix) that you add to **every** file in `src/Lang`.
 The tests fail if a key is missing in any language or a `{0}` placeholder is lost.
 
+## Update the hardware data
+
+The Solutions tab rates graphics cards and processors on a 1 to 10 scale. The graphics list, the upgrade classes
+(with example models and power-supply guidance) and the CPU socket paths live in `src/Data/hardware.json`.
+Processor classes are estimated in `GpuDb.CpuTier` (`src/Advisor/Hardware.cs`). The advisor rules are in
+`src/Advisor/Advisor.cs`. Keep suggestions honest: they are estimates, never store or affiliate links.
+Add a test in `tests/PulseCheck.Tests/AdvisorTests.cs` for each rule you change.
+
 ## Add a language
 
-1. Copy `src/Lang/en.json` to `src/Lang/<code>.json` and translate the values.
+1. Copy `src/Lang/en.json` and `src/Lang/en.advisor.json` to `src/Lang/<code>.json` and `src/Lang/<code>.advisor.json`, and translate the values.
+   (Keep the `<code>.advisor.json` naming: MSBuild would treat `advisor.<code>.json` as a satellite culture resource.)
 2. Add the code and its name to `Loc.Codes` / `Loc.Names` in `src/Models.cs`.
 3. For the website, copy `site/lang/en.json` to `site/lang/<code>.json`, translate it, and add the code
    to `$langs` and `$locales` in `site/build.ps1`.

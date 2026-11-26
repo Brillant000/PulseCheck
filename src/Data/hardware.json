@@ -1,0 +1,32 @@
+{
+  "dataAsOf": "2026-11",
+  "note": "Approximate performance classes (1-10) used to match a graphics card to a display and a usage. Estimates, not benchmarks. Order matters: the first matching pattern wins, most specific first.",
+  "gpus": [
+    { "re": "RTX\\s*5090|RTX\\s*4090", "tier": 10, "vram": 24 },
+    { "re": "RTX\\s*5080|RTX\\s*4080|RX\\s*7900\\s*XTX", "tier": 9, "vram": 16 },
+    { "re": "RTX\\s*5070\\s*Ti|RTX\\s*4070\\s*Ti|RTX\\s*3090|RX\\s*9070\\s*XT|RX\\s*7900|RX\\s*6900|RX\\s*6950", "tier": 8, "vram": 16 },
+    { "re": "RTX\\s*5070|RTX\\s*4070|RTX\\s*3080|RX\\s*9070|RX\\s*7800|RX\\s*6800", "tier": 7, "vram": 12 },
+    { "re": "RTX\\s*5060|RTX\\s*4060\\s*Ti|RTX\\s*3070|RTX\\s*3060\\s*Ti|RX\\s*9060|RX\\s*7700|RX\\s*6700", "tier": 6, "vram": 8 },
+    { "re": "RTX\\s*5050|RTX\\s*4060|RTX\\s*3060|RTX\\s*2080|RTX\\s*2070|GTX\\s*1080\\s*Ti|RX\\s*7600|RX\\s*6650|RX\\s*6600|RX\\s*5700|Arc\\s*\\(?TM\\)?\\s*B5[78]0|Arc\\s*\\(?TM\\)?\\s*A7[57]0", "tier": 5, "vram": 8 },
+    { "re": "RTX\\s*3050|RTX\\s*2060|GTX\\s*1660|GTX\\s*1080|GTX\\s*1070|RX\\s*5600|RX\\s*6500|RX\\s*590|RX\\s*580|Arc\\s*\\(?TM\\)?\\s*A580", "tier": 4, "vram": 6 },
+    { "re": "GTX\\s*1650|GTX\\s*1060|GTX\\s*980|GTX\\s*970|RX\\s*570|RX\\s*480|RX\\s*470|RX\\s*5500|Arc\\s*\\(?TM\\)?\\s*A380", "tier": 3, "vram": 4 },
+    { "re": "GTX\\s*1050|GTX\\s*960|GTX\\s*950|GT\\s*1030|GT\\s*710|RX\\s*560|RX\\s*550|GTX\\s*750|GTX\\s*7\\d0", "tier": 2, "vram": 2 },
+    { "re": "Radeon\\s*\\(?TM\\)?\\s*\\d{3}M|Radeon\\s*\\(?TM\\)?\\s*Graphics|Vega|Iris|UHD|HD\\s*Graphics|Intel\\s*\\(?R\\)?\\s*Graphics|Arc\\s*\\(?TM\\)?\\s*Graphics", "tier": 1, "vram": 0, "igpu": true }
+  ],
+  "classes": [
+    { "tier": 4, "psu": 450, "cost": 1, "examples": ["Radeon RX 6600 8 GB", "GeForce RTX 3050 8 GB"] },
+    { "tier": 5, "psu": 500, "cost": 2, "examples": ["Intel Arc B580 12 GB", "GeForce RTX 5050 8 GB", "Radeon RX 7600 8 GB"] },
+    { "tier": 6, "psu": 550, "cost": 2, "examples": ["GeForce RTX 5060 Ti 16 GB", "Radeon RX 9060 XT 16 GB", "GeForce RTX 5060 8 GB"] },
+    { "tier": 7, "psu": 650, "cost": 3, "examples": ["GeForce RTX 5070 12 GB", "Radeon RX 9070 16 GB"] },
+    { "tier": 8, "psu": 750, "cost": 3, "examples": ["GeForce RTX 5070 Ti 16 GB", "Radeon RX 9070 XT 16 GB"] },
+    { "tier": 9, "psu": 850, "cost": 4, "examples": ["GeForce RTX 5080 16 GB", "Radeon RX 7900 XTX 24 GB"] },
+    { "tier": 10, "psu": 1000, "cost": 4, "examples": ["GeForce RTX 5090 32 GB"] }
+  ],
+  "sockets": {
+    "AM4": { "tier": 7, "examples": ["Ryzen 7 5700X3D", "Ryzen 7 5800X3D", "Ryzen 5 5600"] },
+    "AM5": { "tier": 9, "examples": ["Ryzen 7 9800X3D", "Ryzen 7 7800X3D", "Ryzen 5 9600X"] },
+    "LGA1700": { "tier": 8, "examples": ["Core i5-14600K", "Core i7-14700K"] },
+    "LGA1851": { "tier": 8, "examples": ["Core Ultra 7 265K", "Core Ultra 5 245K"] }
+  },
+  "platform": { "examples": ["AMD AM5 (Ryzen 7 7800X3D or 9700X) with DDR5", "Intel LGA1851 (Core Ultra 5 245K) with DDR5"] }
+}

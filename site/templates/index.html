@@ -65,7 +65,23 @@
   </div>
 </section>
 
-<section id="new-pc">
+<section id="solutions">
+  <div class="wrap">
+    <h2>{{sol.h2}}</h2>
+    <p class="sub">{{sol.lead}}</p>
+    <div class="cards">
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>{{sol1.t}}</h3><p>{{sol1.d}}</p></div>
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>{{sol2.t}}</h3><p>{{sol2.d}}</p></div>
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>{{sol3.t}}</h3><p>{{sol3.d}}</p></div>
+    </div>
+    <picture class="solpic">
+      <source media="(prefers-color-scheme: dark)" srcset="{{root}}shots/sol-{{lang}}-dark.png">
+      <img src="{{root}}shots/sol-{{lang}}-light.png" alt="{{sol.alt}}" width="860" height="732" loading="lazy">
+    </picture>
+  </div>
+</section>
+
+<section id="new-pc" class="alt">
   <div class="wrap">
     <h2>{{np.h2}}</h2>
     <p class="sub">{{np.lead}}</p>
@@ -159,6 +175,7 @@ gh attestation verify .\PulseCheck.exe --repo {{ghrepo}}</pre>
     <details><summary>{{q3}}</summary><p>{{a3}}</p></details>
     <details><summary>{{q4}}</summary><p>{{a4}}</p></details>
     <details><summary>{{q5}}</summary><p>{{a5}}</p></details>
+    <details><summary>{{q7}}</summary><p>{{a7}}</p></details>
     <details><summary>{{q6}}</summary><p>{{a6}}</p></details>
   </div>
 </section>

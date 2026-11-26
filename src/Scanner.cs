@@ -22,6 +22,9 @@ public sealed class Scanner
 
     public bool Speed { get; init; } = true;
 
+    /// <summary>Detailed hardware profile, read during the scan and used by the Solutions tab.</summary>
+    public HardwareInfo Hardware { get; private set; } = new();
+
     public static bool IsAdmin =>
         new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
@@ -45,6 +48,7 @@ public sealed class Scanner
         };
         if (Speed) steps.Add(("p.speed", SpeedTest));
         steps.Add(("p.verdict", Verdict));
+        steps.Add(("a.p.advisor", () => Hardware = HardwareProbe.Read()));
 
         return Task.Run(() =>
         {
@@ -186,7 +190,7 @@ public sealed class Scanner
         EventErrors();
     }
 
-    static int StartupCount()
+    internal static int StartupCount()
     {
         var items = Wmi.Q("SELECT Name FROM Win32_StartupCommand").Select(o => Wmi.G<string>(o, "Name") ?? "").ToList();
         var disabled = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

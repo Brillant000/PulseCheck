@@ -18,8 +18,14 @@ public class LocalizationTests
         return d?.FullName ?? throw new DirectoryNotFoundException("Repository root not found");
     }
 
-    static Dictionary<string, string> Load(string code) =>
-        JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(Path.Combine(RepoRoot(), "src", "Lang", code + ".json")))!;
+    static Dictionary<string, string> Load(string code)
+    {
+        var dir = Path.Combine(RepoRoot(), "src", "Lang");
+        var d = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(Path.Combine(dir, code + ".json")))!;
+        foreach (var kv in JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(Path.Combine(dir, code + ".advisor.json")))!)
+            d[kv.Key] = kv.Value;
+        return d;
+    }
 
     public static IEnumerable<object[]> Codes() => Loc.Codes.Select(c => new object[] { c });
 
@@ -49,8 +55,9 @@ public class LocalizationTests
         var en = Load("en");
         var src = string.Join("\n", Directory.GetFiles(Path.Combine(RepoRoot(), "src"), "*.cs", SearchOption.AllDirectories)
             .Where(f => !f.Contains(@"\obj\") && !f.Contains(@"\bin\")).Select(File.ReadAllText));
-        var used = Regex.Matches(src, "\"((?:cat|p|s|n|d|f|ui)\\.[a-z_0-9]+)\"").Select(m => m.Groups[1].Value).Distinct();
-        Assert.Empty(used.Where(k => !en.ContainsKey(k)));
+        var used = Regex.Matches(src, "\"((?:cat|p|s|n|d|f|ui|a)(?:\\.[a-z_0-9]+)+)\"").Select(m => m.Groups[1].Value).Distinct().ToList();
+        Assert.True(used.Count > 100);
+        Assert.DoesNotContain(used, k => !en.ContainsKey(k));
     }
 
     [Fact]

@@ -26,7 +26,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"1.1.0","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe","description":"Vérifiez un PC Windows neuf en une minute : vraies caractéristiques, usure de la batterie, vitesse mémoire, logiciels préinstallés, santé des disques, sécurité et connexion Internet. Gratuit, open source, 100 % local.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PulseCheck","applicationCategory":"UtilitiesApplication","operatingSystem":"Windows 10, Windows 11","softwareVersion":"1.2.0","license":"https://opensource.org/licenses/MIT","downloadUrl":"https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe","description":"Vérifiez un PC Windows neuf en une minute : vraies caractéristiques, usure de la batterie, vitesse mémoire, logiciels préinstallés, santé des disques, sécurité et connexion Internet. Gratuit, open source, 100 % local.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
 </script>
 </head>
 <body>
@@ -58,11 +58,11 @@
         <a class="btn" href="https://github.com/Brillant000/PulseCheck/releases/latest/download/PulseCheck.exe">Télécharger pour Windows</a>
         <a class="btn ghost" href="https://github.com/Brillant000/PulseCheck">Voir le code source</a>
       </div>
-      <p class="meta">Version 1.1.0 · 63 Mo · Sans compte · Rien à installer</p>
+      <p class="meta">Version 1.2.0 · 63 Mo · Sans compte · Rien à installer</p>
     </div>
 
     <div class="sheet" role="img" aria-label="Exemple de rapport">
-      <div class="sheet-h"><span>Exemple de rapport</span><span>PulseCheck 1.1.0</span></div>
+      <div class="sheet-h"><span>Exemple de rapport</span><span>PulseCheck 1.2.0</span></div>
       <div class="score">
         <div class="ring" style="--p:82"><b>82</b></div>
         <p><strong>Score santé</strong>Deux points à regarder</p>
@@ -103,7 +103,23 @@
   </div>
 </section>
 
-<section id="new-pc">
+<section id="solutions">
+  <div class="wrap">
+    <h2>Des solutions, pas seulement des problèmes</h2>
+    <p class="sub">Dites à PulseCheck à quoi sert votre PC. Il compare votre matériel à votre écran et à votre usage, puis explique quoi changer, par ordre d'intérêt.</p>
+    <div class="cards">
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Gains rapides, gratuits</h3><p>Fréquence bloquée à 60 Hz, mémoire sous sa vitesse nominale, pilote graphique ancien, trop de programmes au démarrage : réglé en quelques minutes, avec le menu exact à ouvrir.</p></div>
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Réglages pour votre matériel</h3><p>Préréglages graphiques adaptés à votre carte et à votre écran, avec le bon upscaler (DLSS, FSR ou XeSS) et une limite d'images raisonnable.</p></div>
+      <div class="card"><span class="g" aria-hidden="true">✓</span><h3>Améliorations, expliquées A + B</h3><p>Votre carte graphique (A) et votre écran 1440p 144 Hz (B) appellent une carte de classe 7. Chaque conseil montre ses raisons, une fourchette de coût et ce qu'il faut vérifier d'abord, comme l'alimentation.</p></div>
+    </div>
+    <picture class="solpic">
+      <source media="(prefers-color-scheme: dark)" srcset="../shots/sol-fr-dark.png">
+      <img src="../shots/sol-fr-light.png" alt="Onglet Solutions de PulseCheck avec des conseils d'amélioration et leurs raisons" width="860" height="732" loading="lazy">
+    </picture>
+  </div>
+</section>
+
+<section id="new-pc" class="alt">
   <div class="wrap">
     <h2>Pensé pour le jour du déballage</h2>
     <p class="sub">Une annonce est difficile à vérifier et le délai de retour est court. Ces contrôles montrent si la machine correspond à ce que vous avez payé.</p>
@@ -197,6 +213,7 @@ gh attestation verify .\PulseCheck.exe --repo Brillant000/PulseCheck</pre>
     <details><summary>Peut-il dire si un PC est d'occasion ou reconditionné ?</summary><p>Il montre des indices, comme l'usure de la batterie ou une activation absente. Ce sont des indicateurs, pas des preuves.</p></details>
     <details><summary>Ai-je besoin des droits administrateur ?</summary><p>Pas pour la plupart des contrôles. Choisissez Lancer en administrateur pour le contrôle TPM et quelques autres.</p></details>
     <details><summary>Est-il vraiment gratuit ?</summary><p>Oui. Il est gratuit et open source sous licence MIT, sans publicité ni offre payante.</p></details>
+    <details><summary>Va-t-il me dire quelle carte graphique ou quelle mémoire acheter ?</summary><p>Oui. Après une analyse, l'onglet Solutions compare votre carte graphique, processeur, mémoire, disques et écran à votre usage (jeu, vidéo et 3D, travail, développement) et explique ce qui vaut la peine d'être amélioré et pourquoi. Les classes de performance sont des estimations, et il n'y a ni publicité ni lien d'affiliation : comparez les tests et prix actuels avant d'acheter.</p></details>
     <details><summary>Quelles langues sont prises en charge ?</summary><p>English, Français, Español et Deutsch. D'autres peuvent être ajoutées : voir le dépôt.</p></details>
   </div>
 </section>
@@ -205,7 +222,7 @@ gh attestation verify .\PulseCheck.exe --repo Brillant000/PulseCheck</pre>
 <footer class="site">
   <div class="wrap">
     <div class="cols">
-      <strong>PulseCheck 1.1.0</strong>
+      <strong>PulseCheck 1.2.0</strong>
       <a href="privacy.html">Confidentialité</a>
       <a href="https://github.com/Brillant000/PulseCheck">Code source</a>
       <a href="https://github.com/Brillant000/PulseCheck/releases">Versions</a>

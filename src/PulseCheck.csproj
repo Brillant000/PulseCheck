@@ -10,7 +10,7 @@
     <RootNamespace>PulseCheck</RootNamespace>
     <ApplicationIcon>Assets\pulsecheck.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Product>PulseCheck</Product>
     <Description>PC and network health check, made for new computers</Description>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Lang\*.json" />
+    <EmbeddedResource Include="Data\*.json" />
     <Resource Include="Assets\pulsecheck.ico" />
   </ItemGroup>
 

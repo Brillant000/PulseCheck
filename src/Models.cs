@@ -28,10 +28,19 @@ public static class Loc
     static Dictionary<string, string> cur = en;
     public static string Current { get; private set; } = "en";
 
+    static Dictionary<string, string>? Read(string resource)
+    {
+        using var s = typeof(Loc).Assembly.GetManifestResourceStream(resource);
+        return s == null ? null : JsonSerializer.Deserialize<Dictionary<string, string>>(s);
+    }
+
     static Dictionary<string, string> Load(string code)
     {
-        using var s = typeof(Loc).Assembly.GetManifestResourceStream($"PulseCheck.Lang.{code}.json")!;
-        return JsonSerializer.Deserialize<Dictionary<string, string>>(s)!;
+        var d = Read($"PulseCheck.Lang.{code}.json")!;
+        // Advisor texts live in their own file per language. Named "<code>.advisor.json" on purpose:
+        // MSBuild treats "advisor.<code>.json" as a culture-specific satellite resource.
+        foreach (var kv in Read($"PulseCheck.Lang.{code}.advisor.json") ?? new()) d[kv.Key] = kv.Value;
+        return d;
     }
 
     public static void Set(string code)

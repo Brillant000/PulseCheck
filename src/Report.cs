@@ -17,9 +17,13 @@ td{padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;font-size:1
 td.b{width:84px}td.n{width:230px;font-weight:600}
 .badge{display:inline-block;padding:2px 9px;border-radius:10px;color:#fff;font-size:12px;font-weight:700}
 .Ok{background:#2e9e5b}.Warn{background:#d99a1c}.Fail{background:#d0453a}.Info{background:#4a7fb5}
-.fix{margin-top:5px;color:#a15c00;font-size:13px}.foot{color:#888;font-size:12px;margin-top:24px}";
+.fix{margin-top:5px;color:#a15c00;font-size:13px}.foot{color:#888;font-size:12px;margin-top:24px}
+.sug{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px #0001}
+.chip{background:#e9f0ee;border-radius:6px;padding:2px 8px;font-size:12px;color:#51616f;margin-left:4px}
+.why{color:#51616f;font-size:14px;margin-top:5px}.why i{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;background:#e9f0ee;font-size:11px;font-style:normal;font-weight:700;margin-right:6px}
+.do{margin-top:9px;font-weight:600}.note{color:#51616f;font-size:12.5px;margin-top:3px}";
 
-    public static string Build(IReadOnlyList<CheckResult> res)
+    public static string Build(IReadOnlyList<CheckResult> res, HardwareInfo? hw = null, Usage usage = Usage.Gaming)
     {
         static string E(string s) => WebUtility.HtmlEncode(s);
         int fail = res.Count(r => r.Status == Status.Fail), warn = res.Count(r => r.Status == Status.Warn),
@@ -45,6 +49,22 @@ td.b{width:84px}td.n{width:230px;font-weight:600}
                 sb.Append($"<tr><td class=\"b\"><span class=\"badge {r.Status}\">{E(word)}</span></td><td class=\"n\">{E(r.Name.Text)}</td><td>{E(r.Detail.Text)}{fix}</td></tr>");
             }
             sb.Append("</table>");
+        }
+        if (hw != null)
+        {
+            var sugs = Advisor.Sorted(Advisor.Build(hw, usage));
+            sb.Append($"<h2>{E(Loc.T("a.ui.tab_adv"))} · {E(Loc.T(Advisor.ProfileKey(usage)))}</h2>");
+            if (sugs.Count == 0) sb.Append($"<p>{E(Loc.T("a.ui.none"))}</p>");
+            foreach (var s in sugs)
+            {
+                sb.Append($"<div class=\"sug\"><b>{E(s.Title.Text)}</b> <span class=\"chip\">{E(s.Cost == 0 ? Loc.T("a.cost.0") : new string('$', s.Cost))}</span>");
+                if (s.Gain != null) sb.Append($" <span class=\"chip\">{E(Loc.T(s.Gain))}</span>");
+                for (int i = 0; i < s.Because.Count; i++) sb.Append($"<div class=\"why\"><i>{(char)('A' + i)}</i> {E(s.Because[i].Text)}</div>");
+                sb.Append($"<div class=\"do\">&rarr; {E(s.Action.Text)}</div>");
+                foreach (var n in s.Notes) sb.Append($"<div class=\"note\">&bull; {E(n.Text)}</div>");
+                sb.Append("</div>");
+            }
+            sb.Append($"<div class=\"foot\">{E(Loc.T("a.ui.estimate", GpuDb.Instance.AsOf))}</div>");
         }
         sb.Append($"<div class=\"foot\">{E(Loc.T("ui.privacy"))}</div></div></body></html>");
         return sb.ToString();

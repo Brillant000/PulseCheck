@@ -80,6 +80,8 @@ ul.rows .d{display:block;color:var(--muted);font-size:14px;line-height:1.4}
 .g.warn{background:var(--warn)}.g.bad{background:var(--bad)}
 .sheet-f{padding:12px 20px;border-top:1px dashed var(--line);font:500 12px var(--mono);color:var(--muted)}
 
+.solpic{display:block;margin-top:34px}
+.solpic img{display:block;width:100%;max-width:860px;height:auto;margin-inline:auto;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--surface)}
 /* app screenshot */
 .shots{padding-block:0 clamp(40px,6vw,76px)}
 .shots h2{margin-bottom:24px}

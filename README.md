@@ -16,6 +16,18 @@ Run it the day you unbox a PC, before the return window closes, or any time some
 | **Health and security** | CPU and memory load, free space, drive health, drivers in error, startup programs, Defender, firewall, Secure Boot, TPM, Windows updates, crashes and disk errors |
 | **Network** | Router, ping, packet loss, jitter, Wi-Fi signal, DNS, web access, proxy and VPN, optional speed test, and a verdict on *where* the connection fails (PC, router, provider or DNS) |
 
+### Solutions, not just problems
+
+The **Solutions** tab compares your hardware with your screen and what you use the PC for (gaming, video/3D/photo, work and study, development) and explains what to change, in order of value:
+
+- **Quick wins, free**: refresh rate stuck below the monitor's maximum, memory not at its rated speed (XMP/EXPO), old graphics driver, Game Mode, startup programs, power plan, low disk space. Each comes with the exact menu to open.
+- **Settings for your hardware**: graphics presets matched to your card and display, the right upscaler (DLSS, FSR or XeSS) and a sensible frame cap.
+- **Upgrades, explained "A + B"**: for example *A: your graphics card is class 4 of 10, B: your 1440p 144 Hz screen needs class 7 → pick a class 7 card*, with a cost range and what to check first (power supply, case, motherboard, RAM type). Laptops are never told to swap a soldered GPU or CPU.
+
+![Solutions tab](docs/shots/sol-en-light.png)
+
+Performance classes (1 to 10) are estimates kept in [`src/Data/hardware.json`](src/Data/hardware.json). PulseCheck has no ads and no affiliate links.
+
 Every finding comes with a plain-language fix. You also get a health score out of 100, a "needs your attention" list, a one-click summary to copy, a shareable HTML report and a full-screen dead-pixel test.
 
 English, Français, Español and Deutsch. Light and dark themes follow Windows.

@@ -69,6 +69,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -110,16 +111,28 @@
             </WrapPanel>
         </DockPanel>
 
-        <StackPanel Grid.Row="2" x:Name="ProgressPanel" Visibility="Collapsed" Margin="0,2,0,10">
+        <DockPanel Grid.Row="2" Margin="0,2,0,12" LastChildFill="False">
+            <Border DockPanel.Dock="Left" Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="9" Padding="3" Margin="0,0,16,0">
+                <StackPanel x:Name="ViewPanel" Orientation="Horizontal"/>
+            </Border>
+            <StackPanel x:Name="ProfileBar" DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
+                <TextBlock x:Name="ProfileLabel" VerticalAlignment="Center" Foreground="{DynamicResource Muted}" FontSize="12.5" Margin="0,0,10,0"/>
+                <Border Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="9" Padding="3">
+                    <StackPanel x:Name="ProfilePanel" Orientation="Horizontal"/>
+                </Border>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Grid.Row="3" x:Name="ProgressPanel" Visibility="Collapsed" Margin="0,2,0,10">
             <ProgressBar x:Name="Progress" Height="6" Foreground="{DynamicResource Accent}" Background="{DynamicResource Soft}" BorderThickness="0"/>
             <TextBlock x:Name="ProgressText" Margin="0,6,0,0" Foreground="{DynamicResource Muted}" FontSize="12.5"/>
         </StackPanel>
 
-        <ScrollViewer x:Name="Scroller" Grid.Row="3" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="Scroller" Grid.Row="4" VerticalScrollBarVisibility="Auto">
             <StackPanel x:Name="ResultsPanel" Margin="0,0,8,0"/>
         </ScrollViewer>
 
-        <TextBlock Grid.Row="4" x:Name="PrivacyText" Foreground="{DynamicResource Muted}" FontSize="11.5" Margin="0,8,0,0" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="5" x:Name="PrivacyText" Foreground="{DynamicResource Muted}" FontSize="11.5" Margin="0,8,0,0" TextWrapping="Wrap"/>
       </Grid>
     </Grid>
 </Window>
