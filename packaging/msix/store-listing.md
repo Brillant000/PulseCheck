@@ -1,6 +1,7 @@
 # Store listing text (copy into Partner Center > PulseCheck > Store listing)
 
-Not submitted. Review every line: it must be true of the version you upload.
+Submitted on 2026-11-27 (version 1.4.1.0, submission 1): EN/FR/ES/DE listings use this text, with the
+"Guided fixes" bullet adapted to the Store package. The certification note is the 500-character short form.
 
 ## English (en-us)
 
@@ -16,7 +17,7 @@ Just unboxed a new PC? PulseCheck checks it in a few minutes, so you can spot pr
 - Health and security: CPU and memory load, free space, drivers in error, startup programs, Defender, firewall, Secure Boot, TPM, Windows updates, crashes.
 - Network: router, ping, packet loss, jitter, Wi-Fi signal, DNS, and a verdict on where the connection fails (PC, router, provider or DNS).
 - Solutions: quick free wins, settings for your graphics card and screen, and upgrade advice explained as "A + B" for gaming, video/3D/photo, work or development.
-- One-click fixes: next to a warning, press Fix. PulseCheck shows exactly what it will change and asks you to confirm. Most fixes can be undone.
+- Guided fixes: next to some warnings (power plan, display refresh rate, temporary files, preinstalled apps) press Fix. PulseCheck shows exactly what it will change and asks you to confirm. For Windows settings such as game capture, Game Mode, startup apps or proxy, it opens the right Settings page for you.
 
 Private by design: everything runs on your PC. No account, no telemetry, no ads, nothing uploaded. Scanning is read-only. PulseCheck never changes your antivirus, firewall, drivers or BIOS and never installs software.
 
@@ -65,7 +66,7 @@ small, take new screenshots of the installed app at a larger window size (about 
 PulseCheck is a desktop system-health utility (packaged with runFullTrust). Scanning is read-only. Optional fixes
 change the signed-in user's own Windows settings (HKCU registry values, power plan, display mode, startup entries,
 removal of Store apps the user ticks) only after an explicit confirmation dialog, and each change is logged locally.
-The unvirtualizedResources capability is needed so those settings are changed in the real registry instead of a
-package-private copy. No data leaves the device except the connectivity test (ping to the router, 1.1.1.1, 8.8.8.8,
+In the packaged version, registry-based settings are not changed by the app (it opens Windows Settings instead).
+No data leaves the device except the connectivity test (ping to the router, 1.1.1.1, 8.8.8.8,
 HTTPS to microsoft.com and msftconnecttest.com; an optional 10 MB download from speed.cloudflare.com).
 No sign-in is needed. Source: https://github.com/Brillant000/PulseCheck
