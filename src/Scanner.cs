@@ -318,9 +318,8 @@ public sealed class Scanner
                 if (name != null && Bloat.Any(b => name.Contains(b, StringComparison.OrdinalIgnoreCase))) found.Add(name);
             }
         }
-        using (var pk = Registry.CurrentUser.OpenSubKey(@"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages"))
-            foreach (var n in pk?.GetSubKeyNames() ?? Array.Empty<string>())
-                if (Bloat.Any(b => n.Contains(b, StringComparison.OrdinalIgnoreCase))) found.Add(n.Split('_')[0]);
+        // only real Store packages: the same list the Fix offers, so the warning and the fix always agree
+        foreach (var n in BloatFix.StoreBloatPackages()) found.Add(n.Split('_')[0]);
         if (found.Count > 0) A(NewPc_, "n.bloat", Status.Warn, "d.bloat", new object[] { string.Join(", ", found.Take(6)) }, "f.bloat");
         else A(NewPc_, "n.bloat", Status.Ok, "d.nobloat");
 

@@ -420,19 +420,34 @@ public sealed class BloatFix : Fix
     /// <summary>Registry data is treated as untrusted: only plain package names are ever passed to PowerShell.</summary>
     public static bool IsSafeName(string s) => Regex.IsMatch(s, @"^[A-Za-z0-9._~-]+$") && s.Length < 200;
 
-    public static List<Item> Candidates()
+    /// <summary>
+    /// A real Microsoft Store (MSIX) package lives under ...\WindowsApps. The registry also keeps entries that are NOT
+    /// removable Store apps: a classic program that registered an identity from its own folder (Norton does this, in
+    /// Program Files), or a leftover whose folder no longer exists. Remove-AppxPackage cannot remove those.
+    /// </summary>
+    public static bool IsStoreRoot(string? root) =>
+        !string.IsNullOrWhiteSpace(root) && root.Contains(@"\WindowsApps\", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Full names of preinstalled-looking Store packages that can really be removed.</summary>
+    public static List<string> StoreBloatPackages()
     {
-        var list = new List<Item>();
+        var list = new List<string>();
         try
         {
             using var k = Registry.CurrentUser.OpenSubKey(Packages);
             foreach (var n in k?.GetSubKeyNames() ?? Array.Empty<string>())
-                if (IsSafeName(n) && Scanner.Bloat.Any(b => n.Contains(b, StringComparison.OrdinalIgnoreCase)))
-                    list.Add(new Item { FullName = n, Display = n.Split('_')[0] });
+            {
+                if (!IsSafeName(n) || !Scanner.Bloat.Any(b => n.Contains(b, StringComparison.OrdinalIgnoreCase))) continue;
+                using var entry = k!.OpenSubKey(n);
+                if (IsStoreRoot(entry?.GetValue("PackageRootFolder") as string)) list.Add(n);
+            }
         }
         catch { }
         return list;
     }
+
+    public static List<Item> Candidates() =>
+        StoreBloatPackages().Select(n => new Item { FullName = n, Display = n.Split('_')[0] }).ToList();
 
     public override void CaptureSelection() { foreach (var i in Items) i.Selected = i.Chosen; }
 
@@ -456,8 +471,14 @@ public sealed class BloatFix : Fix
         int removed = 0; var failed = new List<string>();
         foreach (var i in Items.Where(x => x.Selected && IsSafeName(x.FullName)))   // plain data: safe off the UI thread
         {
-            var (code, _) = Proc.Run("powershell", $"-NoProfile -NonInteractive -Command \"Remove-AppxPackage -Package '{i.FullName}'\"");
-            if (code == 0) removed++; else failed.Add(i.Display);
+            // the error text goes to stdout so the user sees why, not just the package name
+            var (code, output) = Proc.Run("powershell", $"-NoProfile -NonInteractive -Command \"try {{ Remove-AppxPackage -Package '{i.FullName}' -ErrorAction Stop }} catch {{ Write-Output $_.Exception.Message; exit 1 }}\"");
+            if (code == 0) removed++;
+            else
+            {
+                var why = (output ?? "").Replace("\r", " ").Replace("\n", " ").Trim();
+                failed.Add(why.Length == 0 ? i.Display : $"{i.Display} ({(why.Length > 140 ? why[..140] + "…" : why)})");
+            }
         }
         if (removed == 0) return new FixOutcome(false, new Msg("fx.failed", string.Join(", ", failed)));
         return new FixOutcome(true, null, null, new Msg("fx.n.bloat", removed));

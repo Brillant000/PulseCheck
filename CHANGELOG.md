@@ -3,6 +3,7 @@
 ## 1.4.1
 
 - The Solutions tab no longer says "PulseCheck changes nothing for you", which was out of date since the Fix buttons. It now says nothing is changed unless you press Fix and confirm (four languages).
+- **Fixed: "Remove preinstalled Store apps" offered things it cannot remove.** It listed leftovers and classic programs that registered an identity from their own folder (for example Norton in Program Files), and then failed with only the program's name. It now offers only real Store packages, the scan warning uses the same list, and a failure shows the reason. Found by testing the packaged app.
 - Microsoft Store package: the build script reads the version from the project and the manifest turns off registry/file write virtualization, so the fixes act on the real Windows settings. Not published on the Store yet.
 
 ## 1.4.0
