@@ -2,9 +2,9 @@
 <!--
   Microsoft Store package manifest for PulseCheck.
 
-  Identity Name, Publisher and PublisherDisplayName below are TEST values used by CI to prove the
-  package builds. Before submitting to the Store, replace them with the values shown in
-  Partner Center > your app > Product identity (see packaging/msix/README.md).
+  Identity Name, Publisher and PublisherDisplayName below are placeholder TEST values. The build script
+  (build-msix.ps1) replaces them with the real ones from Partner Center > PulseCheck > Product identity:
+  the CI workflow msix.yml passes them in (see packaging/msix/README.md).
 -->
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
