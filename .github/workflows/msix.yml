@@ -22,7 +22,13 @@ jobs:
 
       - name: Build package
         shell: pwsh
-        run: ./packaging/msix/build-msix.ps1
+        # Identity values come from Partner Center > PulseCheck > Product identity (public, not secrets).
+        run: >
+          ./packaging/msix/build-msix.ps1
+          -Name 'BBTraining.PulseCheck'
+          -Publisher 'CN=221E9C12-EEA4-4A59-923A-78D9F1320A4A'
+          -PublisherDisplayName 'BB Training'
+          -Version '1.4.0.0'
 
       - name: Check the package
         shell: pwsh
@@ -41,6 +47,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: PulseCheck-test-msix
+          name: PulseCheck-store-msix
           path: dist-msix/PulseCheck.msix
           retention-days: 7
