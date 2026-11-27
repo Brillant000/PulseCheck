@@ -14,6 +14,7 @@ param(
   [string]$PublisherDisplayName = 'PulseCheck',
   [string]$Version = '',
   [string]$Out = 'dist-msix',
+  [string]$Manifest = '',      # alternative manifest file (experiments); default: AppxManifest.xml next to this script
   [string]$SdkBin = '',        # folder holding makeappx.exe and signtool.exe (e.g. from the Microsoft.Windows.SDK.BuildTools NuGet package)
   [switch]$SignTest
 )
@@ -37,7 +38,7 @@ if ($LASTEXITCODE -ne 0) { throw 'dotnet publish failed' }
 Get-ChildItem $layout -Filter *.pdb | Remove-Item -Force
 
 Copy-Item "$PSScriptRoot\Assets" "$layout\Assets" -Recurse
-$manifest = Get-Content "$PSScriptRoot\AppxManifest.xml" -Raw
+$manifest = Get-Content $(if ($Manifest) { $Manifest } else { "$PSScriptRoot\AppxManifest.xml" }) -Raw
 $manifest = $manifest -replace 'Name="PulseCheck.Test"', "Name=`"$Name`""
 $manifest = $manifest -replace 'Publisher="CN=PulseCheck Test"', "Publisher=`"$Publisher`""
 $manifest = $manifest -replace '<PublisherDisplayName>.*?</PublisherDisplayName>', "<PublisherDisplayName>$PublisherDisplayName</PublisherDisplayName>"

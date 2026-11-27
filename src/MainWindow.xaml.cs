@@ -381,7 +381,7 @@ public partial class MainWindow : Window
             row.Children.Add(left);
             list.Children.Add(new Border { BorderBrush = Theme.Br("Line"), BorderThickness = new Thickness(0, 0, 0, i == applied.Count - 1 ? 0 : 1), Child = row });
         }
-        list.Children.Add(Text(Loc.T("fx.rescan") + "  " + Loc.T("fx.log", FixLog.FilePath), 11.5, null, "Muted", new Thickness(16, 0, 16, 12)));
+        list.Children.Add(Text(Loc.T("fx.rescan") + "  " + Loc.T("fx.log", PackageInfo.VisiblePath(FixLog.FilePath)), 11.5, null, "Muted", new Thickness(16, 0, 16, 12)));
         ResultsPanel.Children.Add(Card(list));
     }
 
@@ -489,10 +489,10 @@ public partial class MainWindow : Window
             foreach (var n in s.Notes) sp.Children.Add(Text("• " + n.Text, 12.5, null, "Muted", new Thickness(0, 0, 0, 1)));
         }
 
-        if (s.FixId != null || s.OpenUri != null)
+        if ((s.FixId != null && !PackageInfo.Blocks(s.FixId)) || s.OpenUri != null)
         {
             var bar = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
-            if (s.FixId != null)
+            if (s.FixId != null && !PackageInfo.Blocks(s.FixId))
             {
                 var fx = ActionFor(s.FixId, null);
                 if (fx is Button fb) fb.Margin = new Thickness(0, 0, 8, 0);

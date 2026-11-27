@@ -39,7 +39,7 @@ public partial class App : Application
         CrashLog.Write(ev.Exception, "ui");
         ev.Handled = true;                       // keep the app alive: the user's work (a scan result) is not lost
         if (++shown > 3) { Shutdown(1); return; } // a loop of errors: stop instead of flooding the user
-        try { MessageBox.Show(Loc.T("err.body", CrashLog.FilePath), Loc.T("err.title"), MessageBoxButton.OK, MessageBoxImage.Warning); }
+        try { MessageBox.Show(Loc.T("err.body", PackageInfo.VisiblePath(CrashLog.FilePath)), Loc.T("err.title"), MessageBoxButton.OK, MessageBoxImage.Warning); }
         catch { }
     }
 }

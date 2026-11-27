@@ -48,7 +48,7 @@ public static class FixDialog
         if (extra != null) sp.Children.Add(extra);
 
         sp.Children.Add(T(Loc.T(fix.Reversible ? "fx.dlg.rev" : "fx.dlg.irrev"), 13, fix.Reversible ? "Ok" : "Warn", FontWeights.SemiBold, new Thickness(0, 14, 0, 4)));
-        sp.Children.Add(T(Loc.T("fx.log", FixLog.FilePath), 11.5, "Muted"));
+        sp.Children.Add(T(Loc.T("fx.log", PackageInfo.VisiblePath(FixLog.FilePath)), 11.5, "Muted"));
 
         var hint = T(Loc.T("fx.pick"), 12.5, "Bad", null, new Thickness(0, 10, 0, 0));
         hint.Visibility = Visibility.Collapsed;

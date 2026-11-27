@@ -1,7 +1,9 @@
 <#
-  Checks, on this machine, whether a registry change made from INSIDE the installed PulseCheck package is
-  visible to Windows (the thing the Fix buttons rely on). The package must be installed first.
+  Measures, on this machine, how the installed PulseCheck package sees the registry:
+    READ  - does a process inside the package see a value that Windows changes outside it (live view)?
+    WRITE - does a change made inside the package reach Windows?
   It only touches a throw-away value under HKCU\Software\PulseCheckProbe and removes it afterwards.
+  The package must be installed first.
 
     ./packaging/msix/probe-virtualization.ps1
 #>
@@ -12,32 +14,37 @@ if (-not $Pfn) {
   if (-not $pkg) { throw 'PulseCheck package is not installed' }
   $Pfn = $pkg.PackageFamilyName
 }
-$key  = 'HKCU:\Software\PulseCheckProbe'
-$work = Join-Path $env:TEMP 'pulsecheck-probe'
+$keyPath = 'Software\PulseCheckProbe'
+$key     = "HKCU:\$keyPath"
+# Outside AppData on purpose: file writes under AppData are virtualized too, so the answer file would stay invisible.
+$work    = Join-Path $env:PUBLIC 'pulsecheck-probe'
 New-Item -ItemType Directory -Force $work | Out-Null
-$inside = Join-Path $work 'inside.ps1'
 $result = Join-Path $work 'inside.txt'
-Remove-Item $result -ErrorAction SilentlyContinue
 
-@"
-try {
-  `$r = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Software\PulseCheckProbe')
-  `$r.SetValue('Existing', 0, 'DWord'); `$r.Close()
-  'inside write ok' | Set-Content '$result'
-} catch { 'inside ERROR ' + `$_.Exception.Message | Set-Content '$result' }
-"@ | Set-Content $inside
+function Invoke-Inside([string]$code) {
+  $script = Join-Path $work 'inside.ps1'
+  Remove-Item $result -ErrorAction SilentlyContinue
+  "& { try { $code } catch { 'ERROR ' + `$_.Exception.Message } } | Set-Content '$result'" | Set-Content $script
+  Invoke-CommandInDesktopPackage -PackageFamilyName $Pfn -AppId PulseCheck -PreventBreakaway -Command 'powershell.exe' `
+    -Args "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
+  $i = 0; while (-not (Test-Path $result) -and $i -lt 30) { Start-Sleep 1; $i++ }
+  if (Test-Path $result) { (Get-Content $result -Raw).Trim() } else { 'no answer' }
+}
+$readCode  = "[Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('$keyPath').GetValue('Existing')"
+$writeCode = "`$r = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('$keyPath'); `$r.SetValue('Existing', 0, 'DWord'); `$r.Close(); 'written'"
 
 Remove-Item $key -Recurse -ErrorAction SilentlyContinue
 New-Item $key -Force | Out-Null
-Set-ItemProperty $key -Name Existing -Value 1 -Type DWord      # an EXISTING value, like the real settings
+try {
+  Set-ItemProperty $key -Name Existing -Value 1 -Type DWord
+  $r1 = Invoke-Inside $readCode                                   # inside should see 1
+  Set-ItemProperty $key -Name Existing -Value 2 -Type DWord
+  $r2 = Invoke-Inside $readCode                                   # inside should see 2 if the view is live
+  Set-ItemProperty $key -Name Existing -Value 3 -Type DWord
+  $w  = Invoke-Inside $writeCode                                  # inside writes 0
+  $seen = (Get-ItemProperty $key).Existing                        # outside sees 0 if the write reached Windows
+} finally { Remove-Item $key -Recurse -ErrorAction SilentlyContinue }
 
-Invoke-CommandInDesktopPackage -PackageFamilyName $Pfn -AppId PulseCheck -PreventBreakaway -Command 'powershell.exe' `
-  -Args "-NoProfile -ExecutionPolicy Bypass -File `"$inside`""
-$i = 0; while (-not (Test-Path $result) -and $i -lt 30) { Start-Sleep 1; $i++ }
-
-$seen = (Get-ItemProperty $key).Existing
-Remove-Item $key -Recurse -ErrorAction SilentlyContinue
 "OS build: $([Environment]::OSVersion.Version)"
-"Inside: $(if (Test-Path $result) { Get-Content $result } else { 'no answer' })"
-if ($seen -eq 0) { "RESULT: VISIBLE - a packaged change to an existing HKCU value reaches Windows." }
-else { "RESULT: VIRTUALIZED - the change stayed inside the package (Windows still sees $seen)." }
+"READ : Windows had 1 -> inside saw [$r1]; Windows then had 2 -> inside saw [$r2]   => " + $(if ($r1 -eq '1' -and $r2 -eq '2') { 'LIVE view' } else { 'STALE or different view' })
+"WRITE: inside wrote 0 ($w); Windows (had 3) now has [$seen]   => " + $(if ($seen -eq 0) { 'VISIBLE to Windows' } else { 'VIRTUALIZED (stays in the package)' })

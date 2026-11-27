@@ -31,7 +31,7 @@ public static class Fixes
     public static string? ForCheck(CheckResult r)
     {
         if (r.Status is not (Status.Warn or Status.Fail)) return null;
-        return r.Name.Key switch
+        var id = r.Name.Key switch
         {
             "n.startup" => "startup",
             "n.proxy" => "proxy",
@@ -40,6 +40,7 @@ public static class Fixes
             "n.bloat" => BloatFix.Candidates().Count > 0 ? "bloat" : null,
             _ => null,
         };
+        return PackageInfo.Blocks(id) ? null : id;   // in the Store package, registry fixes become "Open settings"
     }
 
     /// <summary>For findings PulseCheck cannot safely fix itself: the Windows page where the user can.</summary>
@@ -48,6 +49,8 @@ public static class Fixes
         if (r.Status is not (Status.Warn or Status.Fail)) return null;
         return r.Name.Key switch
         {
+            "n.startup" => "ms-settings:startupapps",
+            "n.proxy" => "ms-settings:network-proxy",
             "n.updates" => "ms-settings:windowsupdate",
             "n.bloat" => "ms-settings:appsfeatures",
             "n.activation" => "ms-settings:activation",

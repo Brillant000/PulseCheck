@@ -44,7 +44,24 @@ Add-AppxPackage dist-msix/PulseCheck.msix
 
 Remove the test certificate afterwards from `Cert:\LocalMachine\TrustedPeople`.
 
-## Why the manifest turns off write virtualization
+## Findings from testing the installed package (read this before submitting)
+
+Measured on Windows 11 builds 26300 (a real PC) and 26100 (CI), with `probe-virtualization.ps1`:
+
+- **WRITE:** a registry change made from inside the package to an existing HKCU value never reaches Windows. This
+  holds with no declaration, with `desktop6:RegistryWriteVirtualization=disabled` + `unvirtualizedResources`, and with
+  the Windows 11 `virtualization:ExcludedKeys` syntax, and through `reg.exe`, WMI and `HKEY_USERS\<SID>`.
+  So the app (`PackageInfo.cs`) shows "Open settings" instead of Fix for the registry-based fixes when it runs from
+  the package, and the manifest requests only `runFullTrust`.
+- **READ:** inside the package, HKCU does not reflect changes Windows makes after the package's first run (a key
+  created outside after install is invisible; a value changed outside keeps its old value). The "Open settings,
+  change it, rescan" loop can therefore show stale results for HKCU-based findings (game capture, Game Mode, proxy,
+  startup entries). Not fixed. This must be resolved or accepted explicitly before submitting.
+- Files under `%LOCALAPPDATA%` written by the package land in `%LOCALAPPDATA%\Packages\<PFN>\LocalCache\Local`
+  (the app shows that real path for its logs).
+- The Store route "EXE or MSI app" avoids all of this (no package) but requires an installer signed by a trusted CA.
+
+## Why the manifest once turned off write virtualization (historical)
 
 By default a packaged app writes to a private copy of the registry and file system, so a fix such as "Game
 capture off" would change nothing in Windows. The manifest sets `RegistryWriteVirtualization` and
