@@ -74,7 +74,7 @@ If PulseCheck meets an unexpected error, it shows a message and saves technical 
 
 ## Known limitations
 
-- **Not code-signed yet**, so Windows SmartScreen or Smart App Control may warn or block it. Check the SHA-256 hash and the build attestation (see above). A signing certificate has been requested.
+- **Not code-signed yet**, so Windows SmartScreen or Smart App Control may warn or block it. Check the SHA-256 hash and the build attestation (see above).
 - **Tested on few machines.** Behaviour on other laptops, desktops and Windows builds may differ. Please [report problems](https://github.com/Brillant000/PulseCheck/issues).
 - **Estimates, not measurements:** graphics and processor classes, battery wear and "preinstalled extras" are indicators. Check the power supply, case and motherboard yourself before buying hardware.
 - **Not covered:** administrator-only fixes (firewall, antivirus, services), driver updates, BIOS settings such as XMP/EXPO, and desktops with several displays (only the primary display is used).
