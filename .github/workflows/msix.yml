@@ -12,6 +12,35 @@ permissions:
   contents: read
 
 jobs:
+  probe:
+    # Informational: does a registry change made inside the installed package reach Windows on a standard build?
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build test-signed package
+        shell: pwsh
+        run: >
+          ./packaging/msix/build-msix.ps1 -SignTest -Out dist-msix-test
+          -Name 'BBTraining.PulseCheck'
+          -Publisher 'CN=221E9C12-EEA4-4A59-923A-78D9F1320A4A'
+          -PublisherDisplayName 'BB Training'
+      - name: Trust the test certificate and install
+        shell: pwsh
+        run: |
+          Import-Certificate -FilePath dist-msix-test/test.cer -CertStoreLocation Cert:\LocalMachine\TrustedPeople | Out-Null
+          Add-AppxPackage -Path (Resolve-Path dist-msix-test/PulseCheck.msix)
+          Get-AppxPackage BBTraining.PulseCheck | Select-Object Name, Version, PackageFamilyName | Format-List
+      - name: Probe registry virtualization
+        shell: pwsh
+        run: ./packaging/msix/probe-virtualization.ps1
+
   msix:
     runs-on: windows-latest
     steps:
