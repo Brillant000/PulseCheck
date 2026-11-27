@@ -14,6 +14,7 @@ param(
   [string]$PublisherDisplayName = 'PulseCheck',
   [string]$Version = '',
   [string]$Out = 'dist-msix',
+  [string]$SdkBin = '',        # folder holding makeappx.exe and signtool.exe (e.g. from the Microsoft.Windows.SDK.BuildTools NuGet package)
   [switch]$SignTest
 )
 $ErrorActionPreference = 'Stop'
@@ -44,6 +45,11 @@ $manifest = $manifest -replace '(<Identity\b[^>]*?\bVersion=")[^"]*(")', "`${1}$
 [IO.File]::WriteAllText("$layout\AppxManifest.xml", $manifest, (New-Object Text.UTF8Encoding($false)))
 
 function Find-SdkTool($tool) {
+  if ($SdkBin) {
+    $p = Join-Path $SdkBin $tool
+    if (-not (Test-Path $p)) { throw "$tool not found in -SdkBin '$SdkBin'" }
+    return (Resolve-Path $p).Path
+  }
   $c = Get-Command $tool -ErrorAction SilentlyContinue
   if ($c) { return $c.Source }
   $f = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Recurse -Filter $tool -ErrorAction SilentlyContinue |
@@ -59,17 +65,19 @@ if ($LASTEXITCODE -ne 0) { throw 'makeappx failed' }
 
 if ($SignTest) {
   $signtool = Find-SdkTool 'signtool.exe'
-  $cert = New-SelfSignedCertificate -Type Custom -Subject $Publisher -KeyUsage DigitalSignature `
-    -FriendlyName 'PulseCheck test' -CertStoreLocation 'Cert:\CurrentUser\My' `
-    -TextExtension @('2.5.29.37={text}1.3.6.1.5.5.7.3.3', '2.5.29.19={text}')
-  $pwd = ConvertTo-SecureString -String ([guid]::NewGuid().ToString()) -Force -AsPlainText
-  $pfx = Join-Path $root "$Out\test.pfx"
-  Export-PfxCertificate -Cert $cert -FilePath $pfx -Password $pwd | Out-Null
-  & $signtool sign /fd SHA256 /a /f $pfx /p ([System.Net.NetworkCredential]::new('', $pwd).Password) $msix
+  # One reusable test certificate per machine (kept in the current user's store), so it only has to be trusted once.
+  $friendly = 'PulseCheck local test'
+  $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.FriendlyName -eq $friendly -and $_.Subject -eq $Publisher -and $_.NotAfter -gt (Get-Date).AddDays(7) } |
+          Sort-Object NotAfter -Descending | Select-Object -First 1
+  if (-not $cert) {
+    $cert = New-SelfSignedCertificate -Type Custom -Subject $Publisher -KeyUsage DigitalSignature `
+      -FriendlyName $friendly -CertStoreLocation 'Cert:\CurrentUser\My' -NotAfter (Get-Date).AddMonths(6) `
+      -TextExtension @('2.5.29.37={text}1.3.6.1.5.5.7.3.3', '2.5.29.19={text}')
+  }
+  & $signtool sign /fd SHA256 /sha1 $cert.Thumbprint /s My $msix
   if ($LASTEXITCODE -ne 0) { throw 'signtool failed' }
   Export-Certificate -Cert $cert -FilePath (Join-Path $root "$Out\test.cer") | Out-Null
-  Remove-Item $pfx -Force
-  Remove-Item "Cert:\CurrentUser\My\$($cert.Thumbprint)" -Force
+  Write-Host "Test certificate thumbprint: $($cert.Thumbprint)  (remove it later with: Remove-Item Cert:\CurrentUser\My\$($cert.Thumbprint))"
 }
 
 Write-Host "Done: $msix"
