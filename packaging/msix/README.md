@@ -44,6 +44,15 @@ Add-AppxPackage dist-msix/PulseCheck.msix
 
 Remove the test certificate afterwards from `Cert:\LocalMachine\TrustedPeople`.
 
+## Why the manifest turns off write virtualization
+
+By default a packaged app writes to a private copy of the registry and file system, so a fix such as "Game
+capture off" would change nothing in Windows. The manifest sets `RegistryWriteVirtualization` and
+`FileSystemWriteVirtualization` to `disabled`, which needs the restricted capability `unvirtualizedResources`
+(like `runFullTrust`, it is reviewed at certification). Justification to give if asked: "PulseCheck is a
+system-health utility. Its optional fixes change the user's own Windows settings (HKCU) after an explicit
+confirmation, and must be visible to Windows." Minimum supported Windows is 10 version 2004 (build 19041).
+
 ## Known unknowns
 
 - Store certification outcome: not guaranteed, especially for a tool that changes system settings.

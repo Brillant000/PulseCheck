@@ -10,7 +10,8 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+  IgnorableNamespaces="uap rescap desktop6">
 
   <Identity Name="PulseCheck.Test" Publisher="CN=PulseCheck Test" Version="1.4.0.0" ProcessorArchitecture="x64" />
 
@@ -18,10 +19,14 @@
     <DisplayName>PulseCheck</DisplayName>
     <PublisherDisplayName>PulseCheck</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+    <!-- PulseCheck's fixes change real Windows settings (HKCU keys such as Game DVR, proxy, Game Mode).
+         Without this, a packaged app writes to a private copy of the registry and Windows never sees the change. -->
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
+    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
   <Resources>
@@ -47,5 +52,6 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="unvirtualizedResources" />
   </Capabilities>
 </Package>
