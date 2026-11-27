@@ -2,7 +2,7 @@
   "a.p.advisor": "Analizando tu hardware…",
   "a.ui.tab_scan": "Diagnóstico", "a.ui.tab_adv": "Soluciones",
   "a.ui.profile": "Uso este PC sobre todo para",
-  "a.ui.hint": "Las soluciones se adaptan al hardware detectado y al uso que elijas. Son sugerencias: PulseCheck no cambia nada por ti.",
+  "a.ui.hint": "Las soluciones se adaptan al hardware detectado y al uso que elijas. Son sugerencias. No se cambia nada hasta que pulses Corregir y confirmes.",
   "a.ui.none": "Tu PC está bien adaptado a este uso. Nada que cambiar.",
   "a.ui.check": "Comprueba antes de comprar",
   "a.ui.open": "Abrir configuración",

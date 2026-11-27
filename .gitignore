@@ -6,3 +6,4 @@ dist/
 PulseCheck-*.html
 
 dist-msix/
+dist-msix-test/

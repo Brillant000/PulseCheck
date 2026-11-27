@@ -2,7 +2,7 @@
   "a.p.advisor": "Analyse de votre matériel…",
   "a.ui.tab_scan": "Diagnostic", "a.ui.tab_adv": "Solutions",
   "a.ui.profile": "J'utilise surtout ce PC pour",
-  "a.ui.hint": "Les solutions sont adaptées à votre matériel détecté et à l'usage choisi. Ce sont des suggestions : PulseCheck ne modifie rien à votre place.",
+  "a.ui.hint": "Les solutions sont adaptées à votre matériel détecté et à l'usage choisi. Ce sont des suggestions. Rien n'est modifié tant que vous n'avez pas cliqué sur Corriger et confirmé.",
   "a.ui.none": "Votre PC est bien adapté à cet usage. Rien à changer.",
   "a.ui.check": "À vérifier avant d'acheter",
   "a.ui.open": "Ouvrir les paramètres",

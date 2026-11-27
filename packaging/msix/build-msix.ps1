@@ -1,9 +1,10 @@
 <#
   Builds PulseCheck.msix (needs the Windows SDK for makeappx.exe and the .NET 8 SDK).
 
-    ./packaging/msix/build-msix.ps1 [-Name PulseCheck.Name -Publisher "CN=..." -Version 1.4.0.0] [-SignTest]
+    ./packaging/msix/build-msix.ps1 [-Name PulseCheck.Name -Publisher "CN=..." -Version 1.4.1.0] [-SignTest]
 
   -Name / -Publisher: the values from Partner Center > Product identity (defaults are test values).
+  -Version: defaults to <Version> in src/PulseCheck.csproj plus ".0" (the Store needs a last number of 0).
   -SignTest: signs with a throw-away self-signed certificate so you can install the package locally.
              The Store ignores that signature and signs the package itself.
 #>
@@ -11,12 +12,19 @@ param(
   [string]$Name = 'PulseCheck.Test',
   [string]$Publisher = 'CN=PulseCheck Test',
   [string]$PublisherDisplayName = 'PulseCheck',
-  [string]$Version = '1.4.0.0',
+  [string]$Version = '',
   [string]$Out = 'dist-msix',
   [switch]$SignTest
 )
 $ErrorActionPreference = 'Stop'
 $root = Resolve-Path (Join-Path $PSScriptRoot '..\..')
+if (-not $Version) {
+  $csproj = Get-Content "$root\src\PulseCheck.csproj" -Raw
+  if ($csproj -notmatch '<Version>(\d+\.\d+\.\d+)</Version>') { throw 'Cannot read <Version> from PulseCheck.csproj' }
+  $Version = "$($Matches[1]).0"
+}
+if ($Version -notmatch '^\d+\.\d+\.\d+\.0$') { throw "Store package versions must look like 1.2.3.0, got '$Version'" }
+Write-Host "Package version: $Version"
 $layout = Join-Path $root "$Out\layout"
 Remove-Item (Join-Path $root $Out) -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force $layout | Out-Null
@@ -32,7 +40,7 @@ $manifest = Get-Content "$PSScriptRoot\AppxManifest.xml" -Raw
 $manifest = $manifest -replace 'Name="PulseCheck.Test"', "Name=`"$Name`""
 $manifest = $manifest -replace 'Publisher="CN=PulseCheck Test"', "Publisher=`"$Publisher`""
 $manifest = $manifest -replace '<PublisherDisplayName>.*?</PublisherDisplayName>', "<PublisherDisplayName>$PublisherDisplayName</PublisherDisplayName>"
-$manifest = $manifest -replace 'Version="1.4.0.0"', "Version=`"$Version`""
+$manifest = $manifest -replace '(<Identity\b[^>]*?\bVersion=")[^"]*(")', "`${1}$Version`$2"
 [IO.File]::WriteAllText("$layout\AppxManifest.xml", $manifest, (New-Object Text.UTF8Encoding($false)))
 
 function Find-SdkTool($tool) {

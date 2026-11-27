@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1
+
+- The Solutions tab no longer says "PulseCheck changes nothing for you", which was out of date since the Fix buttons. It now says nothing is changed unless you press Fix and confirm (four languages).
+- Microsoft Store package: the build script reads the version from the project and the manifest turns off registry/file write virtualization, so the fixes act on the real Windows settings. Not published on the Store yet.
+
 ## 1.4.0
 
 Hardening release. No new feature: it fixes what a review and a bug hunt found.

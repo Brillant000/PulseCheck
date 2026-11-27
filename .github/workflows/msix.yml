@@ -28,7 +28,6 @@ jobs:
           -Name 'BBTraining.PulseCheck'
           -Publisher 'CN=221E9C12-EEA4-4A59-923A-78D9F1320A4A'
           -PublisherDisplayName 'BB Training'
-          -Version '1.4.0.0'
 
       # Same package, signed with a throw-away certificate (private key deleted) so it can be installed
       # locally for testing. It is NOT what gets submitted to the Store.
@@ -39,7 +38,6 @@ jobs:
           -Name 'BBTraining.PulseCheck'
           -Publisher 'CN=221E9C12-EEA4-4A59-923A-78D9F1320A4A'
           -PublisherDisplayName 'BB Training'
-          -Version '1.4.0.0'
 
       - name: Check the package
         shell: pwsh

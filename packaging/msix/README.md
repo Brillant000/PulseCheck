@@ -21,7 +21,7 @@ These steps need your identity and a payment, so only you can do them.
 4. Build the package with those values (needs the Windows SDK and the .NET 8 SDK):
 
    ```powershell
-   ./packaging/msix/build-msix.ps1 -Name "<Identity Name>" -Publisher "<CN=...>" -PublisherDisplayName "<display name>" -Version 1.4.0.0
+   ./packaging/msix/build-msix.ps1 -Name "<Identity Name>" -Publisher "<CN=...>" -PublisherDisplayName "<display name>"
    ```
 
    The result is `dist-msix/PulseCheck.msix`. Do not sign it: the Store signs it.
