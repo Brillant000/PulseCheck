@@ -30,6 +30,17 @@ jobs:
           -PublisherDisplayName 'BB Training'
           -Version '1.4.0.0'
 
+      # Same package, signed with a throw-away certificate (private key deleted) so it can be installed
+      # locally for testing. It is NOT what gets submitted to the Store.
+      - name: Build test-signed copy
+        shell: pwsh
+        run: >
+          ./packaging/msix/build-msix.ps1 -SignTest -Out dist-msix-test
+          -Name 'BBTraining.PulseCheck'
+          -Publisher 'CN=221E9C12-EEA4-4A59-923A-78D9F1320A4A'
+          -PublisherDisplayName 'BB Training'
+          -Version '1.4.0.0'
+
       - name: Check the package
         shell: pwsh
         run: |
@@ -50,3 +61,11 @@ jobs:
           name: PulseCheck-store-msix
           path: dist-msix/PulseCheck.msix
           retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PulseCheck-test-signed
+          path: |
+            dist-msix-test/PulseCheck.msix
+            dist-msix-test/test.cer
+          retention-days: 2
