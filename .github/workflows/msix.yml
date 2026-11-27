@@ -1,0 +1,46 @@
+name: MSIX package
+
+# Builds the Microsoft Store package to prove it stays buildable. It is NOT published anywhere:
+# the Store submission is done by hand in Partner Center (see packaging/msix/README.md).
+on:
+  workflow_dispatch:
+  push:
+    paths: ['packaging/msix/**', 'src/**', '.github/workflows/msix.yml']
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  msix:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build package
+        shell: pwsh
+        run: ./packaging/msix/build-msix.ps1
+
+      - name: Check the package
+        shell: pwsh
+        run: |
+          $f = Get-Item dist-msix/PulseCheck.msix
+          "Package size: {0:N1} MB" -f ($f.Length / 1MB)
+          if ($f.Length -lt 10MB) { throw 'package unexpectedly small' }
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $z = [IO.Compression.ZipFile]::OpenRead($f.FullName)
+          $names = $z.Entries.FullName
+          $z.Dispose()
+          foreach ($need in 'AppxManifest.xml', 'PulseCheck.exe', 'Assets/StoreLogo.png', 'Assets/Square150x150Logo.png') {
+            if ($names -notcontains $need) { throw "missing $need in package" }
+          }
+          'Package content OK'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PulseCheck-test-msix
+          path: dist-msix/PulseCheck.msix
+          retention-days: 7
